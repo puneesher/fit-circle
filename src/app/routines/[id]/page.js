@@ -1,5 +1,7 @@
+import ExerciseImage from "@/components/ExerciseImage";
 import { getBaseUrl } from "@/lib/api";
-import Image from "next/image";
+import { formatWeight, typeBadgeClass } from "@/lib/format-weight";
+import { getNextRoutine } from "@/lib/routines";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -13,14 +15,6 @@ async function getRoutine(id) {
   return res.json();
 }
 
-function formatReps(reps) {
-  return reps.join("/");
-}
-
-function formatWeights(weights) {
-  return weights.join(" / ");
-}
-
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const routine = await getRoutine(id);
@@ -32,7 +26,10 @@ export async function generateMetadata({ params }) {
 
 export default async function RoutinePage({ params }) {
   const { id } = await params;
-  const routine = await getRoutine(id);
+  const [routine, nextRoutine] = await Promise.all([
+    getRoutine(id),
+    getNextRoutine(id),
+  ]);
 
   if (!routine) notFound();
 
@@ -46,12 +43,22 @@ export default async function RoutinePage({ params }) {
               {routine.Name}
             </h1>
           </div>
-          <Link
-            href="/exercises"
-            className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
-          >
-            Exercises
-          </Link>
+          <div className="flex items-center gap-4">
+            {nextRoutine && (
+              <Link
+                href={`/routines/${nextRoutine._id}`}
+                className="text-sm font-medium text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
+              >
+                Next →
+              </Link>
+            )}
+            <Link
+              href="/routines"
+              className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
+            >
+              Routines
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -65,7 +72,7 @@ export default async function RoutinePage({ params }) {
               <div className="flex gap-4 p-4">
                 {item.Exercise?.Picture && (
                   <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
-                    <Image
+                    <ExerciseImage
                       src={item.Exercise.Picture}
                       alt={item.Exercise.Name}
                       fill
@@ -80,23 +87,27 @@ export default async function RoutinePage({ params }) {
                       {item.Exercise?.Name ?? item.exerciseId}
                     </h2>
                     <span
-                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                        item.Type === "Push"
-                          ? "bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200"
-                          : "bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200"
-                      }`}
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${typeBadgeClass(item.Type)}`}
                     >
                       {item.Type}
                     </span>
                   </div>
 
-                  <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-                    {formatWeights(item.Weights)}
-                  </p>
+                  {formatWeight(item) && (
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+                      {formatWeight(item)}
+                    </p>
+                  )}
 
-                  <p className="mt-1 text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                    {item.Sets}×{formatReps(item.Reps)}
-                  </p>
+                  {item.Note && (
+                    <p className="mt-1 text-sm text-zinc-500">{item.Note}</p>
+                  )}
+
+                  {item.Sets != null && item.Reps != null && (
+                    <p className="mt-1 text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                      {item.Sets}×{item.Reps}
+                    </p>
+                  )}
                 </div>
               </div>
             </li>

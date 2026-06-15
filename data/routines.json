@@ -6,72 +6,337 @@
       {
         "exerciseId": "lateral-raise",
         "Type": "Push",
-        "Weights": ["50lbs", "65", "80"],
+        "Weight": 80,
+        "Unit": "lb",
         "Sets": 4,
-        "Reps": [15, 12]
+        "Reps": 12
       },
       {
         "exerciseId": "mts-individual-biceps-curl",
         "Type": "Pull",
-        "Weights": ["2×40", "45", "55", "65"],
+        "Weight": 65,
+        "Unit": "lb",
         "Sets": 4,
-        "Reps": [12]
+        "Reps": 12
       },
       {
         "exerciseId": "triceps-extension",
         "Type": "Push",
-        "Weights": ["80", "95", "110", "125", "145"],
+        "Weight": 145,
+        "Unit": "lb",
         "Sets": 4,
-        "Reps": [15, 12]
+        "Reps": 12
       },
       {
         "exerciseId": "seated-concentration-curl",
         "Type": "Pull",
-        "Weights": ["50", "60"],
+        "Weight": 60,
+        "Unit": "lb",
         "Sets": 4,
-        "Reps": [10, 15]
+        "Reps": 15
       },
       {
         "exerciseId": "mts-shoulder-press",
         "Type": "Push",
-        "Weights": ["2×50", "65"],
+        "Weight": 65,
+        "Unit": "lb",
+        "Prefix": "2×",
         "Sets": 4,
-        "Reps": [12]
+        "Reps": 12
       },
       {
         "exerciseId": "bells",
         "Type": "Pull",
-        "Weights": ["2×22.5", "25"],
+        "Weight": 25,
+        "Unit": "lb",
+        "Prefix": "2×",
         "Sets": 4,
-        "Reps": [10]
+        "Reps": 10
       },
       {
         "exerciseId": "triceps-press",
         "Type": "Push",
-        "Weights": ["150", "180", "190"],
+        "Weight": 190,
+        "Unit": "lb",
         "Sets": 4,
-        "Reps": [12]
+        "Reps": 12
       },
       {
         "exerciseId": "new-individual-biceps-curl",
         "Type": "Pull",
-        "Weights": ["80"],
+        "Weight": 80,
+        "Unit": "lb",
         "Sets": 4,
-        "Reps": [12]
+        "Reps": 12
       },
       {
         "exerciseId": "assisted-dip",
         "Type": "Push",
-        "Weights": ["70", "55"],
+        "Weight": 55,
+        "Unit": "lb",
         "Sets": 4,
-        "Reps": [12]
+        "Reps": 12
       },
       {
         "exerciseId": "assisted-chin",
         "Type": "Pull",
-        "Weights": ["115"],
+        "Weight": 115,
+        "Unit": "lb",
         "Sets": 4,
-        "Reps": [12]
+        "Reps": 12
+      }
+    ]
+  },
+  {
+    "_id": "pecho-y-espalda",
+    "Name": "Pecho y Espalda",
+    "Items": [
+      {
+        "exerciseId": "bench-chest-press",
+        "Type": "Push",
+        "Weight": 35,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Note": "Manuel Valdivieso",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "mts-front-pulldown",
+        "Type": "Pull",
+        "Weight": 95,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "mts-chest-press",
+        "Type": "Push",
+        "Weight": 60,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "rear-deltoid",
+        "Type": "Pull",
+        "Weight": 120,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "pectoral-fly",
+        "Type": "Push",
+        "Weight": 120,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "mts-high-row",
+        "Type": "Pull",
+        "Weight": 75,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "mts-declined-press",
+        "Type": "Push",
+        "Weight": 50,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "mts-row",
+        "Type": "Pull",
+        "Weight": 115,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "dual-cable-cross",
+        "Type": "Push",
+        "Weight": 120,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "front-pulldown",
+        "Type": "Pull",
+        "Weight": 95,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 13
+      },
+      {
+        "exerciseId": "mts-inclined-press",
+        "Type": "Push",
+        "Weight": 60,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "cable-row",
+        "Type": "Pull",
+        "Weight": 100,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "mts-declined-press",
+        "Type": "Push",
+        "Weight": 50,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "lat-pulldown",
+        "Type": "Pull",
+        "Weight": 130,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "inclined-bench-press",
+        "Type": "Push",
+        "Weight": 50,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "dual-pulley-row",
+        "Type": "Pull",
+        "Weight": 100,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      }
+    ]
+  },
+  {
+    "_id": "pierna-y-gluteos",
+    "Name": "Pierna y glúteos",
+    "Items": [
+      {
+        "exerciseId": "glute",
+        "Type": "Push",
+        "Weight": 130,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "leg-curl",
+        "Type": "Pull",
+        "Weight": 140,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "seated-leg-press",
+        "Type": "Push",
+        "Weight": 225,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "hip-adduction",
+        "Type": "Pull",
+        "Weight": 230,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "hip-abduction",
+        "Type": "Push",
+        "Weight": 230,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "calf-extension",
+        "Type": "Push",
+        "Weight": 350,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 20
+      },
+      {
+        "exerciseId": "leg-extension",
+        "Type": "Push",
+        "Weight": 70,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "abdominal",
+        "Type": "Pull",
+        "Weight": 160,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 2
+      },
+      {
+        "exerciseId": "forward-step",
+        "Type": "Push"
+      },
+      {
+        "exerciseId": "seated-leg-curl",
+        "Type": "Pull",
+        "Weight": 150,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "knee-flexion",
+        "Type": "Pull-front",
+        "Weight": 40,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "hip-glute",
+        "Type": "Pull",
+        "Weight": 300,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "individual-kneeling-leg-curl",
+        "Type": "Pull",
+        "Weight": 80,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
       }
     ]
   }

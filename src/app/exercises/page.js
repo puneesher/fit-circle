@@ -1,5 +1,5 @@
+import ExerciseImage from "@/components/ExerciseImage";
 import { getBaseUrl } from "@/lib/api";
-import Image from "next/image";
 import Link from "next/link";
 
 async function getExercises() {
@@ -23,10 +23,10 @@ export default async function ExercisesPage() {
             Exercises
           </h1>
           <Link
-            href="/"
+            href="/routines"
             className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
           >
-            Home
+            Routines
           </Link>
         </div>
       </header>
@@ -42,7 +42,7 @@ export default async function ExercisesPage() {
                 className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
               >
                 <div className="relative aspect-video bg-zinc-100 dark:bg-zinc-800">
-                  <Image
+                  <ExerciseImage
                     src={exercise.Picture}
                     alt={exercise.Name}
                     fill

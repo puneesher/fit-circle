@@ -8,3 +8,7 @@ export function getExerciseStorage() {
 export function getRoutineStorage() {
   return createJsonFileStorage("routines");
 }
+
+export function getHistoryStorage() {
+  return createJsonFileStorage("history");
+}

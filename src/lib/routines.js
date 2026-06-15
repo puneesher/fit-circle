@@ -24,3 +24,12 @@ export async function getRoutineWithExercises(id) {
     })),
   };
 }
+
+export async function getNextRoutine(currentId) {
+  const routines = await getRoutineStorage().readAll();
+  const index = routines.findIndex((entry) => entry._id === currentId);
+
+  if (index === -1 || routines.length < 2) return null;
+
+  return routines[(index + 1) % routines.length];
+}

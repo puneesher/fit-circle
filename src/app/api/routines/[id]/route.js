@@ -1,6 +1,8 @@
 import { getRoutineWithExercises } from "@/lib/routines";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(_request, { params }) {
   const { id } = await params;
   const routine = await getRoutineWithExercises(id);

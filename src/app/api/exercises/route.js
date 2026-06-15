@@ -1,6 +1,8 @@
 import { getExerciseStorage } from "@/lib/storage";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const storage = getExerciseStorage();
   const exercises = await storage.readAll();

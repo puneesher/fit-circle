@@ -3,7 +3,7 @@
     "_id": "lateral-raise",
     "Name": "Lateral Raise",
     "Target": "Shoulders",
-    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Lateral_Raise/0.jpg",
+    "Picture": "/images/LateralRaiseGIF_1080x.webp",
     "Muscles": ["anterior deltoid", "lateral deltoid", "trapezius"]
   },
   {
@@ -31,7 +31,7 @@
     "_id": "mts-shoulder-press",
     "Name": "MTS Shoulder Press",
     "Target": "Shoulders",
-    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Machine_Shoulder_Press/0.jpg",
+    "Picture": "/images/Lever-Shoulder-Press.gif",
     "Muscles": ["anterior deltoid", "lateral deltoid", "triceps"]
   },
   {
@@ -70,6 +70,195 @@
     "Muscles": ["latissimus dorsi", "biceps", "brachialis"]
   },
   {
+    "_id": "bench-chest-press",
+    "Name": "Bench Chest Press",
+    "Target": "Chest",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg",
+    "Muscles": ["pectorals", "anterior deltoid", "triceps"]
+  },
+  {
+    "_id": "mts-front-pulldown",
+    "Name": "MTS Front Pulldown",
+    "Target": "Back",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/0.jpg",
+    "Muscles": ["latissimus dorsi", "biceps", "rhomboids"]
+  },
+  {
+    "_id": "mts-chest-press",
+    "Name": "MTS Chest Press",
+    "Target": "Chest",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Machine_Bench_Press/0.jpg",
+    "Muscles": ["pectorals", "anterior deltoid", "triceps"]
+  },
+  {
+    "_id": "rear-deltoid",
+    "Name": "Rear Deltoid",
+    "Target": "Shoulders",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Dumbbell_Rear_Delt_Raise_With_Head_On_Bench/0.jpg",
+    "Muscles": ["posterior deltoid", "trapezius", "rhomboids"]
+  },
+  {
+    "_id": "pectoral-fly",
+    "Name": "Pectoral Fly",
+    "Target": "Chest",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Flyes/0.jpg",
+    "Muscles": ["pectorals", "anterior deltoid"]
+  },
+  {
+    "_id": "mts-high-row",
+    "Name": "MTS High Row",
+    "Target": "Back",
+    "Picture": "/images/high-row.gif",
+    "Muscles": ["latissimus dorsi", "rhomboids", "trapezius"]
+  },
+  {
+    "_id": "mts-declined-press",
+    "Name": "MTS Declined Press",
+    "Target": "Chest",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Decline_Barbell_Bench_Press/0.jpg",
+    "Muscles": ["pectorals", "anterior deltoid", "triceps"]
+  },
+  {
+    "_id": "mts-row",
+    "Name": "MTS Row",
+    "Target": "Back",
+    "Picture": "/images/Rowing-Machine.gif",
+    "Muscles": ["latissimus dorsi", "rhomboids", "biceps"]
+  },
+  {
+    "_id": "dual-cable-cross",
+    "Name": "Dual Cable Cross",
+    "Target": "Chest",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Crossover/0.jpg",
+    "Muscles": ["pectorals", "anterior deltoid"]
+  },
+  {
+    "_id": "front-pulldown",
+    "Name": "Front Pulldown",
+    "Target": "Back",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Close-Grip_Front_Lat_Pulldown/0.jpg",
+    "Muscles": ["latissimus dorsi", "biceps", "rhomboids"]
+  },
+  {
+    "_id": "mts-inclined-press",
+    "Name": "MTS Inclined Press",
+    "Target": "Chest",
+    "Picture": "/images/Incline-Chest-Press-Machine.gif",
+    "Muscles": ["pectorals", "anterior deltoid", "triceps"]
+  },
+  {
+    "_id": "cable-row",
+    "Name": "Row",
+    "Target": "Back",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Cable_Rows/0.jpg",
+    "Muscles": ["latissimus dorsi", "rhomboids", "biceps"]
+  },
+  {
+    "_id": "inclined-bench-press",
+    "Name": "Inclined Bench Press",
+    "Target": "Chest",
+    "Picture": "/images/incline-bench-press-800.jpg",
+    "Muscles": ["pectorals", "anterior deltoid", "triceps"]
+  },
+  {
+    "_id": "dual-pulley-row",
+    "Name": "Dual Pulley Row",
+    "Target": "Back",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Cable_Rows/0.jpg",
+    "Muscles": ["latissimus dorsi", "rhomboids", "biceps"]
+  },
+  {
+    "_id": "glute",
+    "Name": "Glute",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Glute_Bridge/0.jpg",
+    "Muscles": ["glutes", "hamstrings"]
+  },
+  {
+    "_id": "leg-curl",
+    "Name": "Leg Curl",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/0.jpg",
+    "Muscles": ["hamstrings", "calves"]
+  },
+  {
+    "_id": "seated-leg-press",
+    "Name": "Seated Leg Press",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/0.jpg",
+    "Muscles": ["quadriceps", "glutes", "hamstrings"]
+  },
+  {
+    "_id": "hip-adduction",
+    "Name": "Hip Adduction",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Adductor/0.jpg",
+    "Muscles": ["adductors", "glutes"]
+  },
+  {
+    "_id": "hip-abduction",
+    "Name": "Hip Abduction",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Abductor/0.jpg",
+    "Muscles": ["abductors", "glutes"]
+  },
+  {
+    "_id": "calf-extension",
+    "Name": "Calf Extension",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/0.jpg",
+    "Muscles": ["calves"]
+  },
+  {
+    "_id": "leg-extension",
+    "Name": "Leg Extension",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/0.jpg",
+    "Muscles": ["quadriceps"]
+  },
+  {
+    "_id": "abdominal",
+    "Name": "Abdominal",
+    "Target": "Core",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Crunches/0.jpg",
+    "Muscles": ["rectus abdominis", "obliques"]
+  },
+  {
+    "_id": "forward-step",
+    "Name": "Forward Step",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bodyweight_Squat/0.jpg",
+    "Muscles": ["quadriceps", "glutes", "hamstrings"]
+  },
+  {
+    "_id": "seated-leg-curl",
+    "Name": "Seated Leg Curl",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Leg_Curl/0.jpg",
+    "Muscles": ["hamstrings", "calves"]
+  },
+  {
+    "_id": "knee-flexion",
+    "Name": "Knee Flexion",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/0.jpg",
+    "Muscles": ["hamstrings"]
+  },
+  {
+    "_id": "hip-glute",
+    "Name": "Hip & Glute",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Glute_Bridge/0.jpg",
+    "Muscles": ["glutes", "hamstrings"]
+  },
+  {
+    "_id": "individual-kneeling-leg-curl",
+    "Name": "Individual Kneeling Leg Curl",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/0.jpg",
+    "Muscles": ["hamstrings"]
+  },
+  {
     "_id": "bench-press",
     "Name": "Bench Press",
     "Target": "Chest",
@@ -78,7 +267,7 @@
   },
   {
     "_id": "lat-pulldown",
-    "Name": "Lat Pulldown",
+    "Name": "Lat Pull-down",
     "Target": "Back",
     "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/0.jpg",
     "Muscles": ["latissimus dorsi", "biceps", "rhomboids"]
