@@ -1,4 +1,5 @@
 import {
+  getExerciseStorage,
   getHistoryStorage,
   getRoutineStorage,
 } from "@/lib/storage";
@@ -12,16 +13,31 @@ function todayDate() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export async function getActiveSession() {
+export async function getActiveSessions() {
   const history = await getHistoryStorage().readAll();
-  return history.find((entry) => entry.status === "active") ?? null;
+  return history.filter((entry) => entry.status === "active");
+}
+
+export async function getActiveSession() {
+  const actives = await getActiveSessions();
+  if (actives.length === 0) return null;
+
+  return actives.sort(
+    (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
+  )[0];
 }
 
 export async function getWorkoutHomeData() {
-  const [routines, activeSession] = await Promise.all([
+  const [routines, activeSessions] = await Promise.all([
     getRoutineStorage().readAll(),
-    getActiveSession(),
+    getActiveSessions(),
   ]);
+
+  const activeSession = activeSessions.length
+    ? activeSessions.sort(
+        (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
+      )[0]
+    : null;
 
   let activeRoutine = null;
   if (activeSession) {
@@ -30,6 +46,7 @@ export async function getWorkoutHomeData() {
 
   return {
     routines,
+    activeSessions,
     activeSession,
     activeRoutine,
   };
@@ -139,5 +156,60 @@ export async function completeExercise(sessionId, exerciseId) {
   return {
     session,
     routine: updatedRoutine,
+  };
+}
+
+export async function endWorkout(sessionId) {
+  const historyStorage = getHistoryStorage();
+  const history = await historyStorage.readAll();
+  const session = history.find((entry) => entry._id === sessionId);
+
+  if (!session || session.status !== "active") return null;
+
+  session.status = "completed";
+  session.completedAt = new Date().toISOString();
+  await historyStorage.writeAll(history);
+
+  return session;
+}
+
+export async function cancelWorkout(sessionId) {
+  const historyStorage = getHistoryStorage();
+  const history = await historyStorage.readAll();
+  const session = history.find((entry) => entry._id === sessionId);
+
+  if (!session || session.status !== "active") return null;
+
+  session.status = "cancelled";
+  session.cancelledAt = new Date().toISOString();
+  await historyStorage.writeAll(history);
+
+  return session;
+}
+
+export async function getWorkoutHistory() {
+  const history = await getHistoryStorage().readAll();
+  return history.sort(
+    (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
+  );
+}
+
+export async function getWorkoutSession(id) {
+  const history = await getHistoryStorage().readAll();
+  const session = history.find((entry) => entry._id === id);
+
+  if (!session) return null;
+
+  const exercises = await getExerciseStorage().readAll();
+  const exerciseById = Object.fromEntries(
+    exercises.map((exercise) => [exercise._id, exercise]),
+  );
+
+  return {
+    ...session,
+    completedItems: session.completedItems.map((item) => ({
+      ...item,
+      Exercise: exerciseById[item.exerciseId] ?? null,
+    })),
   };
 }

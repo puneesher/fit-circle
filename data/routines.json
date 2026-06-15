@@ -1,93 +1,5 @@
 [
   {
-    "_id": "brazo-y-hombro",
-    "Name": "Brazo y Hombro",
-    "Items": [
-      {
-        "exerciseId": "lateral-raise",
-        "Type": "Push",
-        "Weight": 80,
-        "Unit": "lb",
-        "Sets": 4,
-        "Reps": 12
-      },
-      {
-        "exerciseId": "mts-individual-biceps-curl",
-        "Type": "Pull",
-        "Weight": 65,
-        "Unit": "lb",
-        "Sets": 4,
-        "Reps": 12
-      },
-      {
-        "exerciseId": "triceps-extension",
-        "Type": "Push",
-        "Weight": 145,
-        "Unit": "lb",
-        "Sets": 4,
-        "Reps": 12
-      },
-      {
-        "exerciseId": "seated-concentration-curl",
-        "Type": "Pull",
-        "Weight": 60,
-        "Unit": "lb",
-        "Sets": 4,
-        "Reps": 15
-      },
-      {
-        "exerciseId": "mts-shoulder-press",
-        "Type": "Push",
-        "Weight": 65,
-        "Unit": "lb",
-        "Prefix": "2×",
-        "Sets": 4,
-        "Reps": 12
-      },
-      {
-        "exerciseId": "bells",
-        "Type": "Pull",
-        "Weight": 25,
-        "Unit": "lb",
-        "Prefix": "2×",
-        "Sets": 4,
-        "Reps": 10
-      },
-      {
-        "exerciseId": "triceps-press",
-        "Type": "Push",
-        "Weight": 190,
-        "Unit": "lb",
-        "Sets": 4,
-        "Reps": 12
-      },
-      {
-        "exerciseId": "new-individual-biceps-curl",
-        "Type": "Pull",
-        "Weight": 80,
-        "Unit": "lb",
-        "Sets": 4,
-        "Reps": 12
-      },
-      {
-        "exerciseId": "assisted-dip",
-        "Type": "Push",
-        "Weight": 55,
-        "Unit": "lb",
-        "Sets": 4,
-        "Reps": 12
-      },
-      {
-        "exerciseId": "assisted-chin",
-        "Type": "Pull",
-        "Weight": 115,
-        "Unit": "lb",
-        "Sets": 4,
-        "Reps": 12
-      }
-    ]
-  },
-  {
     "_id": "pecho-y-espalda",
     "Name": "Pecho y Espalda",
     "Items": [
@@ -333,6 +245,94 @@
         "exerciseId": "individual-kneeling-leg-curl",
         "Type": "Pull",
         "Weight": 80,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12
+      }
+    ]
+  },
+  {
+    "_id": "brazo-y-hombro",
+    "Name": "Brazo y Hombro",
+    "Items": [
+      {
+        "exerciseId": "bells",
+        "Type": "Pull",
+        "Weight": 25,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 10
+      },
+      {
+        "exerciseId": "triceps-press",
+        "Type": "Push",
+        "Weight": 190,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "new-individual-biceps-curl",
+        "Type": "Pull",
+        "Weight": 80,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "assisted-dip",
+        "Type": "Push",
+        "Weight": 55,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "assisted-chin",
+        "Type": "Pull",
+        "Weight": 115,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "lateral-raise",
+        "Type": "Push",
+        "Weight": 80,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "mts-individual-biceps-curl",
+        "Type": "Pull",
+        "Weight": 65,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "triceps-extension",
+        "Type": "Push",
+        "Weight": 145,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12
+      },
+      {
+        "exerciseId": "seated-concentration-curl",
+        "Type": "Pull",
+        "Weight": 60,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 15
+      },
+      {
+        "exerciseId": "mts-shoulder-press",
+        "Type": "Push",
+        "Weight": 65,
         "Unit": "lb",
         "Prefix": "2×",
         "Sets": 4,

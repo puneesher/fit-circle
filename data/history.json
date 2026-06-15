@@ -5,7 +5,65 @@
     "startedAt": "2026-06-13T23:12:29.836Z",
     "routineId": "pierna-y-gluteos",
     "routineName": "Pierna y glúteos",
-    "status": "active",
-    "completedItems": []
+    "status": "cancelled",
+    "completedItems": [],
+    "cancelledAt": "2026-06-15T18:16:59.563Z"
+  },
+  {
+    "_id": "2026-06-15-brazo-y-hombro-1781547557252",
+    "date": "2026-06-15",
+    "startedAt": "2026-06-15T18:19:17.252Z",
+    "routineId": "brazo-y-hombro",
+    "routineName": "Brazo y Hombro",
+    "status": "completed",
+    "completedItems": [
+      {
+        "exerciseId": "lateral-raise",
+        "Type": "Push",
+        "Weight": 80,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12,
+        "completedAt": "2026-06-15T18:19:20.498Z"
+      },
+      {
+        "exerciseId": "mts-individual-biceps-curl",
+        "Type": "Pull",
+        "Weight": 65,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12,
+        "completedAt": "2026-06-15T18:19:22.898Z"
+      },
+      {
+        "exerciseId": "triceps-extension",
+        "Type": "Push",
+        "Weight": 145,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 12,
+        "completedAt": "2026-06-15T18:19:30.197Z"
+      },
+      {
+        "exerciseId": "seated-concentration-curl",
+        "Type": "Pull",
+        "Weight": 60,
+        "Unit": "lb",
+        "Sets": 4,
+        "Reps": 15,
+        "completedAt": "2026-06-15T18:19:31.695Z"
+      },
+      {
+        "exerciseId": "mts-shoulder-press",
+        "Type": "Push",
+        "Weight": 65,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12,
+        "completedAt": "2026-06-15T18:19:37.921Z"
+      }
+    ],
+    "completedAt": "2026-06-15T18:19:40.313Z"
   }
 ]

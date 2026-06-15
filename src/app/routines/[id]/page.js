@@ -11,7 +11,7 @@ export async function generateMetadata({ params }) {
   const routine = await getRoutineWithExercises(id);
 
   return {
-    title: routine ? `${routine.Name} | Fit Circle` : "Routine | Fit Circle",
+    title: routine ? `${routine.Name} | Fitness Circle` : "Routine | Fitness Circle",
   };
 }
 
@@ -26,35 +26,25 @@ export default async function RoutinePage({ params }) {
 
   return (
     <div className="min-h-full bg-zinc-50 dark:bg-zinc-950">
-      <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
+      <main className="mx-auto max-w-lg px-4 py-4">
+        <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm text-zinc-500">Routine</p>
             <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
               {routine.Name}
             </h1>
           </div>
-          <div className="flex items-center gap-4">
-            {nextRoutine && (
-              <Link
-                href={`/routines/${nextRoutine._id}`}
-                className="text-sm font-medium text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
-              >
-                Next →
-              </Link>
-            )}
+          {nextRoutine && (
             <Link
-              href="/routines"
-              className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
+              href={`/routines/${nextRoutine._id}`}
+              className="shrink-0 text-sm font-medium text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
             >
-              Routines
+              Next →
             </Link>
-          </div>
+          )}
         </div>
-      </header>
 
-      <main className="mx-auto max-w-3xl px-6 py-8">
-        <ol className="space-y-4">
+        <ol className="mt-6 space-y-4">
           {routine.Items.map((item, index) => (
             <li
               key={`${item.exerciseId}-${index}`}
