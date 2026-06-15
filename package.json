@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "node scripts/seed-oracle.mjs",
+    "seed:oracle": "node scripts/seed-oracle.mjs"
   },
   "dependencies": {
     "next": "16.2.9",
+    "oracledb": "^6.10.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
