@@ -1,19 +1,13 @@
 import ExerciseImage from "@/components/ExerciseImage";
-import { getBaseUrl } from "@/lib/api";
+import { getExerciseStorage } from "@/lib/storage";
 import Link from "next/link";
-
-async function getExercises() {
-  const res = await fetch(`${getBaseUrl()}/api/exercises`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch exercises");
-  return res.json();
-}
 
 export const metadata = {
   title: "Exercises | Fit Circle",
 };
 
 export default async function ExercisesPage() {
-  const exercises = await getExercises();
+  const exercises = await getExerciseStorage().readAll();
 
   return (
     <div className="min-h-full bg-zinc-50 dark:bg-zinc-950">

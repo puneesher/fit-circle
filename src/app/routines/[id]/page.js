@@ -1,23 +1,14 @@
 import ExerciseImage from "@/components/ExerciseImage";
-import { getBaseUrl } from "@/lib/api";
 import { formatWeight, typeBadgeClass } from "@/lib/format-weight";
-import { getNextRoutine } from "@/lib/routines";
+import { getNextRoutine, getRoutineWithExercises } from "@/lib/routines";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-async function getRoutine(id) {
-  const res = await fetch(`${getBaseUrl()}/api/routines/${id}`, {
-    cache: "no-store",
-  });
-
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error("Failed to fetch routine");
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const routine = await getRoutine(id);
+  const routine = await getRoutineWithExercises(id);
 
   return {
     title: routine ? `${routine.Name} | Fit Circle` : "Routine | Fit Circle",
@@ -27,7 +18,7 @@ export async function generateMetadata({ params }) {
 export default async function RoutinePage({ params }) {
   const { id } = await params;
   const [routine, nextRoutine] = await Promise.all([
-    getRoutine(id),
+    getRoutineWithExercises(id),
     getNextRoutine(id),
   ]);
 

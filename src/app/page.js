@@ -1,26 +1,16 @@
 import WorkoutHome from "@/components/WorkoutHome";
-import { getBaseUrl } from "@/lib/api";
+import { getWorkoutHomeData } from "@/lib/workout";
 
-async function getHomeData() {
-  const res = await fetch(`${getBaseUrl()}/api/history`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch workout data");
-  return res.json();
-}
-
-async function getRoutines() {
-  const res = await fetch(`${getBaseUrl()}/api/routines`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch routines");
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [routines, homeData] = await Promise.all([getRoutines(), getHomeData()]);
+  const { routines, activeSession, activeRoutine } = await getWorkoutHomeData();
 
   return (
     <WorkoutHome
       initialRoutines={routines}
-      initialSession={homeData.activeSession}
-      initialRoutine={homeData.activeRoutine}
+      initialSession={activeSession}
+      initialRoutine={activeRoutine}
     />
   );
 }

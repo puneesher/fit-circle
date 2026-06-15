@@ -17,6 +17,24 @@ export async function getActiveSession() {
   return history.find((entry) => entry.status === "active") ?? null;
 }
 
+export async function getWorkoutHomeData() {
+  const [routines, activeSession] = await Promise.all([
+    getRoutineStorage().readAll(),
+    getActiveSession(),
+  ]);
+
+  let activeRoutine = null;
+  if (activeSession) {
+    activeRoutine = await getRoutineWithExercises(activeSession.routineId);
+  }
+
+  return {
+    routines,
+    activeSession,
+    activeRoutine,
+  };
+}
+
 export async function rotateRoutineToEnd(routineId) {
   const storage = getRoutineStorage();
   const routines = await storage.readAll();

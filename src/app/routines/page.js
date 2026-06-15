@@ -1,18 +1,14 @@
-import { getBaseUrl } from "@/lib/api";
+import { getRoutineStorage } from "@/lib/storage";
 import Link from "next/link";
 
-async function getRoutines() {
-  const res = await fetch(`${getBaseUrl()}/api/routines`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch routines");
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Routines | Fit Circle",
 };
 
 export default async function RoutinesPage() {
-  const routines = await getRoutines();
+  const routines = await getRoutineStorage().readAll();
 
   return (
     <div className="min-h-full bg-zinc-50 dark:bg-zinc-950">
