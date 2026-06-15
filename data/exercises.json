@@ -1,0 +1,93 @@
+[
+  {
+    "_id": "lateral-raise",
+    "Name": "Lateral Raise",
+    "Target": "Shoulders",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Lateral_Raise/0.jpg",
+    "Muscles": ["anterior deltoid", "lateral deltoid", "trapezius"]
+  },
+  {
+    "_id": "mts-individual-biceps-curl",
+    "Name": "MTS Individual Biceps Curl",
+    "Target": "Biceps",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Machine_Preacher_Curls/0.jpg",
+    "Muscles": ["biceps brachii", "brachialis"]
+  },
+  {
+    "_id": "triceps-extension",
+    "Name": "Triceps Extension",
+    "Target": "Triceps",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Pushdown/0.jpg",
+    "Muscles": ["triceps"]
+  },
+  {
+    "_id": "seated-concentration-curl",
+    "Name": "Seated Concentration Curl",
+    "Target": "Biceps",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Concentration_Curls/0.jpg",
+    "Muscles": ["biceps brachii", "brachialis"]
+  },
+  {
+    "_id": "mts-shoulder-press",
+    "Name": "MTS Shoulder Press",
+    "Target": "Shoulders",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Machine_Shoulder_Press/0.jpg",
+    "Muscles": ["anterior deltoid", "lateral deltoid", "triceps"]
+  },
+  {
+    "_id": "bells",
+    "Name": "Bells",
+    "Target": "Biceps",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bicep_Curl/0.jpg",
+    "Muscles": ["biceps brachii", "brachialis"]
+  },
+  {
+    "_id": "triceps-press",
+    "Name": "Triceps Press",
+    "Target": "Triceps",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Close-Grip_Barbell_Bench_Press/0.jpg",
+    "Muscles": ["triceps", "pectorals", "anterior deltoid"]
+  },
+  {
+    "_id": "new-individual-biceps-curl",
+    "Name": "New Individual Biceps Curl",
+    "Target": "Biceps",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/0.jpg",
+    "Muscles": ["biceps brachii", "brachialis", "brachioradialis"]
+  },
+  {
+    "_id": "assisted-dip",
+    "Name": "Assisted Dip",
+    "Target": "Triceps",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/0.jpg",
+    "Muscles": ["triceps", "pectorals", "anterior deltoid"]
+  },
+  {
+    "_id": "assisted-chin",
+    "Name": "Assisted Chin",
+    "Target": "Back",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Chin-Up/0.jpg",
+    "Muscles": ["latissimus dorsi", "biceps", "brachialis"]
+  },
+  {
+    "_id": "bench-press",
+    "Name": "Bench Press",
+    "Target": "Chest",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg",
+    "Muscles": ["pectorals", "anterior deltoid", "triceps"]
+  },
+  {
+    "_id": "lat-pulldown",
+    "Name": "Lat Pulldown",
+    "Target": "Back",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/0.jpg",
+    "Muscles": ["latissimus dorsi", "biceps", "rhomboids"]
+  },
+  {
+    "_id": "leg-press",
+    "Name": "Leg Press",
+    "Target": "Legs",
+    "Picture": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/0.jpg",
+    "Muscles": ["quadriceps", "glutes", "hamstrings"]
+  }
+]
