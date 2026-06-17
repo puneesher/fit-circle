@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "node scripts/seed-oracle.mjs",
-    "seed:oracle": "node scripts/seed-oracle.mjs"
+    "seed:oracle": "node scripts/seed-oracle.mjs",
+    "seed:oracle:exercises": "node scripts/seed-oracle.mjs --exercises-only",
+    "fetch:images": "node scripts/fetch-exercise-images.mjs",
+    "migrate:oracle": "node scripts/migrate-oracle.mjs"
   },
   "dependencies": {
     "next": "16.2.9",

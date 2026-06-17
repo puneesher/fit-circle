@@ -1,9 +1,14 @@
-import oracledb from "oracledb";
-
-oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
-oracledb.fetchAsString = [oracledb.CLOB];
-
 const globalForOracle = globalThis;
+
+async function getOracleDb() {
+  if (!globalForOracle._oracledb) {
+    const oracledb = (await import("oracledb")).default;
+    oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+    globalForOracle._oracledb = oracledb;
+  }
+
+  return globalForOracle._oracledb;
+}
 
 function getConfig() {
   const user = process.env.ORACLE_USER;
@@ -21,6 +26,7 @@ function getConfig() {
 
 export async function getOraclePool() {
   if (!globalForOracle._oraclePool) {
+    const oracledb = await getOracleDb();
     const config = getConfig();
     globalForOracle._oraclePool = await oracledb.createPool({
       ...config,
@@ -42,21 +48,4 @@ export async function withOracleConnection(fn) {
   } finally {
     await connection.close();
   }
-}
-
-export async function ensureOracleSchema(connection) {
-  await connection.execute(`
-    BEGIN
-      EXECUTE IMMEDIATE '
-        CREATE TABLE fc_collections (
-          name VARCHAR2(64) PRIMARY KEY,
-          items JSON NOT NULL
-        )';
-    EXCEPTION
-      WHEN OTHERS THEN
-        IF SQLCODE != -955 THEN
-          RAISE;
-        END IF;
-    END;
-  `);
 }

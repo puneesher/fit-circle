@@ -1,5 +1,4 @@
-import ExerciseImage from "@/components/ExerciseImage";
-import { formatWeight, typeBadgeClass } from "@/lib/format-weight";
+import WorkoutCard from "@/components/WorkoutCard";
 import { getNextRoutine, getRoutineWithExercises } from "@/lib/routines";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -50,47 +49,7 @@ export default async function RoutinePage({ params }) {
               key={`${item.exerciseId}-${index}`}
               className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
             >
-              <div className="flex gap-4 p-4">
-                {item.Exercise?.Picture && (
-                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
-                    <ExerciseImage
-                      src={item.Exercise.Picture}
-                      alt={item.Exercise.Name}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-50">
-                      {item.Exercise?.Name ?? item.exerciseId}
-                    </h2>
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${typeBadgeClass(item.Type)}`}
-                    >
-                      {item.Type}
-                    </span>
-                  </div>
-
-                  {formatWeight(item) && (
-                    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-                      {formatWeight(item)}
-                    </p>
-                  )}
-
-                  {item.Note && (
-                    <p className="mt-1 text-sm text-zinc-500">{item.Note}</p>
-                  )}
-
-                  {item.Sets != null && item.Reps != null && (
-                    <p className="mt-1 text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                      {item.Sets}×{item.Reps}
-                    </p>
-                  )}
-                </div>
-              </div>
+              <WorkoutCard item={item} />
             </li>
           ))}
         </ol>

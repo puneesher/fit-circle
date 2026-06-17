@@ -1,66 +1,117 @@
 import {
-  ensureOracleSchema,
-  withOracleConnection,
-} from "./oracle-client";
+  ensureOracleTables,
+  migrateLegacyCollection,
+  readJsonRows,
+} from "./oracle-schema";
+import { withOracleConnection } from "./oracle-client";
 import { readJsonSeed } from "./seed-from-json";
 
-async function readCollection(connection, collectionName) {
-  const result = await connection.execute(
-    `SELECT items FROM fc_collections WHERE name = :name`,
-    { name: collectionName },
-  );
+const TABLE_CONFIG = {
+  exercises: {
+    table: "fc_exercises",
+    orderBy: "id",
+    writeRows: writeExerciseRows,
+  },
+  routines: {
+    table: "fc_routines",
+    orderBy: "sort_order",
+    writeRows: writeRoutineRows,
+  },
+  history: {
+    table: "fc_history",
+    orderBy: "started_at",
+    writeRows: writeHistoryRows,
+  },
+};
 
-  if (result.rows.length === 0) {
-    return null;
-  }
-
-  const items = result.rows[0].ITEMS;
-
-  if (typeof items === "string") {
-    return JSON.parse(items);
-  }
-
-  return items;
+async function readRows(connection, config) {
+  return readJsonRows(connection, config.table, config.orderBy);
 }
 
-async function writeCollection(connection, collectionName, items) {
-  await connection.execute(
-    `MERGE INTO fc_collections target
-     USING (SELECT :name AS name, :items AS items FROM dual) source
-     ON (target.name = source.name)
-     WHEN MATCHED THEN
-       UPDATE SET target.items = source.items
-     WHEN NOT MATCHED THEN
-       INSERT (name, items) VALUES (source.name, source.items)`,
-    {
-      name: collectionName,
-      items: JSON.stringify(items),
-    },
-    { autoCommit: true },
+async function writeExerciseRows(connection, items) {
+  await connection.execute(`DELETE FROM fc_exercises`, [], { autoCommit: false });
+
+  for (const item of items) {
+    await connection.execute(
+      `INSERT INTO fc_exercises (id, data) VALUES (:id, :data)`,
+      { id: item._id, data: JSON.stringify(item) },
+      { autoCommit: false },
+    );
+  }
+}
+
+async function writeRoutineRows(connection, items) {
+  await connection.execute(`DELETE FROM fc_routines`, [], { autoCommit: false });
+
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+    await connection.execute(
+      `INSERT INTO fc_routines (id, sort_order, data) VALUES (:id, :sort_order, :data)`,
+      {
+        id: item._id,
+        sort_order: index,
+        data: JSON.stringify(item),
+      },
+      { autoCommit: false },
+    );
+  }
+}
+
+async function writeHistoryRows(connection, items) {
+  await connection.execute(`DELETE FROM fc_history`, [], { autoCommit: false });
+
+  for (const item of items) {
+    await connection.execute(
+      `INSERT INTO fc_history (id, started_at, data) VALUES (:id, :started_at, :data)`,
+      {
+        id: item._id,
+        started_at: new Date(item.startedAt),
+        data: JSON.stringify(item),
+      },
+      { autoCommit: false },
+    );
+  }
+}
+
+async function ensureCollectionReady(connection, collectionName) {
+  const config = TABLE_CONFIG[collectionName];
+
+  await ensureOracleTables(connection);
+  await migrateLegacyCollection(connection, collectionName);
+
+  const result = await connection.execute(
+    `SELECT COUNT(*) AS C FROM ${config.table}`,
   );
+
+  if (result.rows[0].C > 0) return;
+
+  const seed = await readJsonSeed(collectionName);
+  if (seed.length === 0) return;
+
+  await config.writeRows(connection, seed);
+  await connection.commit();
 }
 
 export function createOracleStorage(collectionName) {
+  const config = TABLE_CONFIG[collectionName];
+
+  if (!config) {
+    throw new Error(`Unknown Oracle collection: ${collectionName}`);
+  }
+
   return {
     async readAll() {
       return withOracleConnection(async (connection) => {
-        await ensureOracleSchema(connection);
-
-        let items = await readCollection(connection, collectionName);
-
-        if (items == null) {
-          items = await readJsonSeed(collectionName);
-          await writeCollection(connection, collectionName, items);
-        }
-
-        return items;
+        await ensureCollectionReady(connection, collectionName);
+        return readRows(connection, config);
       });
     },
 
     async writeAll(items) {
       return withOracleConnection(async (connection) => {
-        await ensureOracleSchema(connection);
-        await writeCollection(connection, collectionName, items);
+        await ensureOracleTables(connection);
+        await config.writeRows(connection, items);
+        await connection.commit();
         return items;
       });
     },
