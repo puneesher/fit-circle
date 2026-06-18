@@ -1,8 +1,10 @@
 import {
   cancelWorkout,
   completeExercise,
+  deleteWorkout,
   endWorkout,
   getActiveSessions,
+  setExerciseWeight,
 } from "@/lib/workout";
 import { getRoutineStorage } from "@/lib/storage";
 import { getRoutineWithExercises } from "@/lib/routines";
@@ -13,7 +15,23 @@ export const dynamic = "force-dynamic";
 export async function PATCH(request, { params }) {
   const { id } = await params;
   const body = await request.json();
-  const { exerciseId, action } = body;
+  const { exerciseId, action, weight } = body;
+
+  if (action === "setWeight") {
+    if (!exerciseId || weight == null) {
+      return NextResponse.json(
+        { error: "exerciseId and weight are required" },
+        { status: 400 },
+      );
+    }
+
+    const result = await setExerciseWeight(id, exerciseId, Number(weight));
+    if (!result) {
+      return NextResponse.json({ error: "Session not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(result);
+  }
 
   if (action === "end") {
     const session = await endWorkout(id);
@@ -31,6 +49,20 @@ export async function PATCH(request, { params }) {
 
   if (action === "cancel") {
     const session = await cancelWorkout(id);
+    if (!session) {
+      return NextResponse.json({ error: "Session not found" }, { status: 404 });
+    }
+
+    const [routines, activeSessions] = await Promise.all([
+      getRoutineStorage().readAll(),
+      getActiveSessions(),
+    ]);
+
+    return NextResponse.json({ session, routines, activeSessions });
+  }
+
+  if (action === "delete") {
+    const session = await deleteWorkout(id);
     if (!session) {
       return NextResponse.json({ error: "Session not found" }, { status: 404 });
     }

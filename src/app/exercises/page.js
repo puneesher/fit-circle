@@ -1,6 +1,8 @@
 import ExerciseImage from "@/components/ExerciseImage";
 import { getExerciseStorage } from "@/lib/storage";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Exercises | Fitness Circle",
 };

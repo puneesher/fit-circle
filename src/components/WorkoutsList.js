@@ -1,4 +1,5 @@
 import WorkoutCard from "@/components/WorkoutCard";
+import { withEffectiveWeight } from "@/lib/exercise-weight";
 
 export default function WorkoutsList({
   routine,
@@ -6,8 +7,10 @@ export default function WorkoutsList({
   completedIds,
   loading,
   onCompleteItem,
+  onEditWeight,
   onEndWorkout,
   onCancelWorkout,
+  onDeleteWorkout,
 }) {
   const progress = `${completedIds.size}/${routine.Items.length}`;
   const hasActiveSession = session.status === "active";
@@ -21,7 +24,7 @@ export default function WorkoutsList({
               {routine.Name}
             </h2>
             <p className="mt-0.5 text-sm text-zinc-500">
-              Tap an exercise when done. It moves to the bottom.
+              Tap an exercise when done. Tap its image to adjust weight.
             </p>
           </div>
           <span className="shrink-0 rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">
@@ -36,23 +39,33 @@ export default function WorkoutsList({
         )}
 
         {hasActiveSession && (
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3 space-y-2">
             <button
               type="button"
               disabled={loading}
               onClick={onEndWorkout}
-              className="flex-1 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50"
+              className="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50"
             >
               End workout
             </button>
-            <button
-              type="button"
-              disabled={loading}
-              onClick={onCancelWorkout}
-              className="flex-1 rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
-            >
-              Cancel
-            </button>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                disabled={loading}
+                onClick={onCancelWorkout}
+                className="flex-1 rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={loading}
+                onClick={onDeleteWorkout}
+                className="flex-1 rounded-lg border border-red-300 px-3 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-50 disabled:opacity-50 dark:border-red-900 dark:text-red-300 dark:hover:bg-red-950/40"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -69,11 +82,14 @@ export default function WorkoutsList({
           return (
             <li key={`${item.exerciseId}-${index}`}>
               <WorkoutCard
-                item={item}
+                item={withEffectiveWeight(item, session)}
                 done={done}
                 isNext={isNext}
                 disabled={loading || done || session.status === "completed"}
                 onComplete={onCompleteItem}
+                onEditWeight={
+                  hasActiveSession && !done ? onEditWeight : undefined
+                }
               />
             </li>
           );

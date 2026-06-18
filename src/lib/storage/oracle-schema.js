@@ -101,61 +101,51 @@ const MIGRATIONS = {
   history: { table: "fc_history", insert: insertHistoryRows },
 };
 
+const TABLE_DDLS = {
+  fc_exercises: `
+    CREATE TABLE fc_exercises (
+      id VARCHAR2(128) PRIMARY KEY,
+      data JSON NOT NULL
+    )`,
+  fc_routines: `
+    CREATE TABLE fc_routines (
+      id VARCHAR2(128) PRIMARY KEY,
+      sort_order NUMBER NOT NULL,
+      data JSON NOT NULL
+    )`,
+  fc_history: `
+    CREATE TABLE fc_history (
+      id VARCHAR2(256) PRIMARY KEY,
+      started_at TIMESTAMP WITH TIME ZONE NOT NULL,
+      data JSON NOT NULL
+    )`,
+  fc_collections: `
+    CREATE TABLE fc_collections (
+      name VARCHAR2(64) PRIMARY KEY,
+      items JSON NOT NULL
+    )`,
+};
+
+async function createTableIfMissing(connection, tableName) {
+  if (await tableExists(connection, tableName)) return;
+
+  try {
+    await connection.execute(TABLE_DDLS[tableName]);
+  } catch (error) {
+    if (error.errorNum !== 955) throw error;
+  }
+}
+
 export async function ensureOracleTables(connection) {
-  await connection.execute(`
-    BEGIN
-      EXECUTE IMMEDIATE '
-        CREATE TABLE fc_exercises (
-          id VARCHAR2(128) PRIMARY KEY,
-          data JSON NOT NULL
-        )';
-    EXCEPTION
-      WHEN OTHERS THEN
-        IF SQLCODE != -955 THEN RAISE; END IF;
-    END;
-  `);
+  const global = globalThis;
 
-  await connection.execute(`
-    BEGIN
-      EXECUTE IMMEDIATE '
-        CREATE TABLE fc_routines (
-          id VARCHAR2(128) PRIMARY KEY,
-          sort_order NUMBER NOT NULL,
-          data JSON NOT NULL
-        )';
-    EXCEPTION
-      WHEN OTHERS THEN
-        IF SQLCODE != -955 THEN RAISE; END IF;
-    END;
-  `);
+  if (global._oracleTablesEnsured) return;
 
-  await connection.execute(`
-    BEGIN
-      EXECUTE IMMEDIATE '
-        CREATE TABLE fc_history (
-          id VARCHAR2(256) PRIMARY KEY,
-          started_at TIMESTAMP WITH TIME ZONE NOT NULL,
-          data JSON NOT NULL
-        )';
-    EXCEPTION
-      WHEN OTHERS THEN
-        IF SQLCODE != -955 THEN RAISE; END IF;
-    END;
-  `);
+  for (const tableName of Object.keys(TABLE_DDLS)) {
+    await createTableIfMissing(connection, tableName);
+  }
 
-  // Keep legacy table for backup; create if missing for older deployments.
-  await connection.execute(`
-    BEGIN
-      EXECUTE IMMEDIATE '
-        CREATE TABLE fc_collections (
-          name VARCHAR2(64) PRIMARY KEY,
-          items JSON NOT NULL
-        )';
-    EXCEPTION
-      WHEN OTHERS THEN
-        IF SQLCODE != -955 THEN RAISE; END IF;
-    END;
-  `);
+  global._oracleTablesEnsured = true;
 }
 
 export async function migrateLegacyCollection(connection, collectionName, { force = false } = {}) {
@@ -246,4 +236,4 @@ export async function readJsonRows(connection, table, orderBy) {
   );
 }
 
-export { parseJsonValue };
+export { parseJsonValue, countRows };

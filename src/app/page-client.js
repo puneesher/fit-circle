@@ -1,6 +1,8 @@
 "use client";
 
+import WorkoutEditor from "@/components/WorkoutEditor";
 import WorkoutsList from "@/components/WorkoutsList";
+import { withEffectiveWeight } from "@/lib/exercise-weight";
 import { useState } from "react";
 
 export default function PageClient({
@@ -17,6 +19,7 @@ export default function PageClient({
   const [routinePanelOpen, setRoutinePanelOpen] = useState(!initialSession);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [editorItem, setEditorItem] = useState(null);
 
   const completedIds = new Set(
     session?.completedItems?.map((item) => item.exerciseId) ?? [],
@@ -85,6 +88,34 @@ export default function PageClient({
     }
   }
 
+  async function saveWeight(exerciseId, weight) {
+    if (!session) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch(`/api/history/${session._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "setWeight", exerciseId, weight }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error ?? "Failed to update weight");
+      }
+
+      const data = await res.json();
+      setSession(data.session);
+      setEditorItem(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function finishWorkout(action) {
     if (!session || session.status !== "active") return;
 
@@ -125,8 +156,10 @@ export default function PageClient({
       completedIds={completedIds}
       loading={loading}
       onCompleteItem={completeItem}
+      onEditWeight={(item) => setEditorItem(item)}
       onEndWorkout={() => finishWorkout("end")}
       onCancelWorkout={() => finishWorkout("cancel")}
+      onDeleteWorkout={() => finishWorkout("delete")}
     />
   );
 
@@ -231,6 +264,18 @@ export default function PageClient({
 
         {routinePanelOpen && workoutsList}
       </main>
+
+      <WorkoutEditor
+        open={Boolean(editorItem)}
+        item={
+          editorItem && session
+            ? withEffectiveWeight(editorItem, session)
+            : editorItem
+        }
+        loading={loading}
+        onCancel={() => setEditorItem(null)}
+        onConfirm={(weight) => saveWeight(editorItem.exerciseId, weight)}
+      />
     </div>
   );
 }

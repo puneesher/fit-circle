@@ -73,23 +73,23 @@ async function writeHistoryRows(connection, items) {
   }
 }
 
-async function ensureCollectionReady(connection, collectionName) {
-  const config = TABLE_CONFIG[collectionName];
-
+async function loadCollection(connection, collectionName, config) {
   await ensureOracleTables(connection);
+
+  const rows = await readRows(connection, config);
+  if (rows.length > 0) return rows;
+
   await migrateLegacyCollection(connection, collectionName);
 
-  const result = await connection.execute(
-    `SELECT COUNT(*) AS C FROM ${config.table}`,
-  );
-
-  if (result.rows[0].C > 0) return;
+  const migrated = await readRows(connection, config);
+  if (migrated.length > 0) return migrated;
 
   const seed = await readJsonSeed(collectionName);
-  if (seed.length === 0) return;
+  if (seed.length === 0) return [];
 
   await config.writeRows(connection, seed);
   await connection.commit();
+  return seed;
 }
 
 export function createOracleStorage(collectionName) {
@@ -101,10 +101,9 @@ export function createOracleStorage(collectionName) {
 
   return {
     async readAll() {
-      return withOracleConnection(async (connection) => {
-        await ensureCollectionReady(connection, collectionName);
-        return readRows(connection, config);
-      });
+      return withOracleConnection(async (connection) =>
+        loadCollection(connection, collectionName, config),
+      );
     },
 
     async writeAll(items) {

@@ -7,12 +7,12 @@
     "routineName": "Pierna y glúteos",
     "status": "cancelled",
     "completedItems": [],
-    "cancelledAt": "2026-06-15T18:16:59.563Z"
+    "cancelledAt": "2026-06-15T19:25:27.135Z"
   },
   {
-    "_id": "2026-06-15-brazo-y-hombro-1781547557252",
+    "_id": "2026-06-15-brazo-y-hombro-1781551539408",
     "date": "2026-06-15",
-    "startedAt": "2026-06-15T18:19:17.252Z",
+    "startedAt": "2026-06-15T19:25:39.408Z",
     "routineId": "brazo-y-hombro",
     "routineName": "Brazo y Hombro",
     "status": "completed",
@@ -24,7 +24,7 @@
         "Unit": "lb",
         "Sets": 4,
         "Reps": 12,
-        "completedAt": "2026-06-15T18:19:20.498Z"
+        "completedAt": "2026-06-15T19:25:44.889Z"
       },
       {
         "exerciseId": "mts-individual-biceps-curl",
@@ -33,7 +33,7 @@
         "Unit": "lb",
         "Sets": 4,
         "Reps": 12,
-        "completedAt": "2026-06-15T18:19:22.898Z"
+        "completedAt": "2026-06-15T19:25:46.079Z"
       },
       {
         "exerciseId": "triceps-extension",
@@ -42,7 +42,7 @@
         "Unit": "lb",
         "Sets": 4,
         "Reps": 12,
-        "completedAt": "2026-06-15T18:19:30.197Z"
+        "completedAt": "2026-06-15T19:25:47.092Z"
       },
       {
         "exerciseId": "seated-concentration-curl",
@@ -51,7 +51,7 @@
         "Unit": "lb",
         "Sets": 4,
         "Reps": 15,
-        "completedAt": "2026-06-15T18:19:31.695Z"
+        "completedAt": "2026-06-15T19:25:48.523Z"
       },
       {
         "exerciseId": "mts-shoulder-press",
@@ -61,9 +61,51 @@
         "Prefix": "2×",
         "Sets": 4,
         "Reps": 12,
-        "completedAt": "2026-06-15T18:19:37.921Z"
+        "completedAt": "2026-06-15T19:25:49.576Z"
       }
     ],
-    "completedAt": "2026-06-15T18:19:40.313Z"
+    "completedAt": "2026-06-15T19:25:51.261Z"
+  },
+  {
+    "_id": "2026-06-16-pecho-y-espalda-1781621551377",
+    "date": "2026-06-16",
+    "startedAt": "2026-06-16T14:52:31.377Z",
+    "routineId": "pecho-y-espalda",
+    "routineName": "Pecho y Espalda",
+    "status": "completed",
+    "completedItems": [
+      {
+        "exerciseId": "mts-inclined-press",
+        "Type": "Push",
+        "Weight": 60,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12,
+        "completedAt": "2026-06-16T14:59:18.015Z"
+      },
+      {
+        "exerciseId": "mts-front-pulldown",
+        "Type": "Pull",
+        "Weight": 95,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Sets": 4,
+        "Reps": 12,
+        "completedAt": "2026-06-16T15:07:03.341Z"
+      },
+      {
+        "exerciseId": "bench-chest-press",
+        "Type": "Push",
+        "Weight": 35,
+        "Unit": "lb",
+        "Prefix": "2×",
+        "Note": "Manuel Valdivieso",
+        "Sets": 4,
+        "Reps": 12,
+        "completedAt": "2026-06-16T15:13:53.802Z"
+      }
+    ],
+    "completedAt": "2026-06-16T15:31:44.170Z"
   }
 ]

@@ -1,5 +1,17 @@
 const globalForOracle = globalThis;
 
+function isBufferBoundsError(error) {
+  return (
+    error?.code === "ERR_BUFFER_OUT_OF_BOUNDS" ||
+    String(error?.message ?? "").includes("outside buffer bounds")
+  );
+}
+
+function resetOracleRuntime() {
+  globalForOracle._oraclePool = null;
+  globalForOracle._oracleTablesEnsured = false;
+}
+
 async function getOracleDb() {
   if (!globalForOracle._oracledb) {
     const oracledb = (await import("oracledb")).default;
@@ -31,7 +43,7 @@ export async function getOraclePool() {
     globalForOracle._oraclePool = await oracledb.createPool({
       ...config,
       poolMin: 0,
-      poolMax: 4,
+      poolMax: 1,
       poolIncrement: 1,
     });
   }
@@ -39,13 +51,30 @@ export async function getOraclePool() {
   return globalForOracle._oraclePool;
 }
 
-export async function withOracleConnection(fn) {
+function withOracleLock(fn) {
+  const previous = globalForOracle._oracleLock ?? Promise.resolve();
+  const run = previous.catch(() => {}).then(fn);
+  globalForOracle._oracleLock = run.catch(() => {});
+  return run;
+}
+
+async function runWithConnection(fn, attempt = 0) {
   const pool = await getOraclePool();
   const connection = await pool.getConnection();
 
   try {
     return await fn(connection);
+  } catch (error) {
+    if (isBufferBoundsError(error) && attempt < 2) {
+      resetOracleRuntime();
+      return runWithConnection(fn, attempt + 1);
+    }
+    throw error;
   } finally {
     await connection.close();
   }
+}
+
+export async function withOracleConnection(fn) {
+  return withOracleLock(() => runWithConnection(fn));
 }

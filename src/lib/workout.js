@@ -3,6 +3,7 @@ import {
   getHistoryStorage,
   getRoutineStorage,
 } from "@/lib/storage";
+import { getLatestQueuedWeight } from "@/lib/exercise-weight";
 import { getRoutineWithExercises } from "@/lib/routines";
 
 function sessionId(date, routineId) {
@@ -105,6 +106,7 @@ export async function startWorkoutDay(routineId) {
     routineName: routine.Name,
     status: "active",
     completedItems: [],
+    weightQueues: {},
   };
 
   history.push(session);
@@ -136,9 +138,11 @@ export async function completeExercise(sessionId, exerciseId) {
   if (alreadyDone) return { session, routine };
 
   const { Exercise, ...itemSnapshot } = item;
+  const queuedWeight = getLatestQueuedWeight(session, exerciseId);
 
   session.completedItems.push({
     ...itemSnapshot,
+    ...(queuedWeight != null ? { Weight: queuedWeight } : {}),
     completedAt: new Date().toISOString(),
   });
 
@@ -157,6 +161,32 @@ export async function completeExercise(sessionId, exerciseId) {
     session,
     routine: updatedRoutine,
   };
+}
+
+export async function setExerciseWeight(sessionId, exerciseId, weight) {
+  const historyStorage = getHistoryStorage();
+  const history = await historyStorage.readAll();
+  const session = history.find((entry) => entry._id === sessionId);
+
+  if (!session || session.status !== "active") return null;
+
+  const routine = await getRoutineWithExercises(session.routineId);
+  const item = routine?.Items.find((entry) => entry.exerciseId === exerciseId);
+
+  if (!item || item.Weight == null) return null;
+
+  if (!session.weightQueues) {
+    session.weightQueues = {};
+  }
+
+  if (!session.weightQueues[exerciseId]) {
+    session.weightQueues[exerciseId] = [];
+  }
+
+  session.weightQueues[exerciseId].push(weight);
+  await historyStorage.writeAll(history);
+
+  return { session };
 }
 
 export async function endWorkout(sessionId) {
@@ -182,6 +212,22 @@ export async function cancelWorkout(sessionId) {
 
   session.status = "cancelled";
   session.cancelledAt = new Date().toISOString();
+  await historyStorage.writeAll(history);
+
+  return session;
+}
+
+export async function deleteWorkout(sessionId) {
+  const historyStorage = getHistoryStorage();
+  const history = await historyStorage.readAll();
+  const index = history.findIndex((entry) => entry._id === sessionId);
+
+  if (index === -1) return null;
+
+  const session = history[index];
+  if (session.status !== "active") return null;
+
+  history.splice(index, 1);
   await historyStorage.writeAll(history);
 
   return session;
