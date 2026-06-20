@@ -1,3 +1,5 @@
+import { bookRowId } from "../books.js";
+
 async function parseJsonValue(value) {
   if (value == null) return null;
   if (typeof value === "string") return JSON.parse(value);
@@ -95,10 +97,26 @@ async function insertHistoryRows(connection, items) {
   }
 }
 
+async function insertBookRows(connection, items) {
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+    await connection.execute(
+      `INSERT INTO fc_books (id, sort_order, data) VALUES (:id, :sort_order, :data)`,
+      {
+        id: bookRowId(item, index),
+        sort_order: index,
+        data: JSON.stringify(item),
+      },
+      { autoCommit: false },
+    );
+  }
+}
+
 const MIGRATIONS = {
   exercises: { table: "fc_exercises", insert: insertExerciseRows },
   routines: { table: "fc_routines", insert: insertRoutineRows },
   history: { table: "fc_history", insert: insertHistoryRows },
+  books: { table: "fc_books", insert: insertBookRows },
 };
 
 const TABLE_DDLS = {
@@ -124,6 +142,12 @@ const TABLE_DDLS = {
       name VARCHAR2(64) PRIMARY KEY,
       items JSON NOT NULL
     )`,
+  fc_books: `
+    CREATE TABLE fc_books (
+      id VARCHAR2(256) PRIMARY KEY,
+      sort_order NUMBER NOT NULL,
+      data JSON NOT NULL
+    )`,
 };
 
 async function createTableIfMissing(connection, tableName) {
@@ -137,15 +161,9 @@ async function createTableIfMissing(connection, tableName) {
 }
 
 export async function ensureOracleTables(connection) {
-  const global = globalThis;
-
-  if (global._oracleTablesEnsured) return;
-
   for (const tableName of Object.keys(TABLE_DDLS)) {
     await createTableIfMissing(connection, tableName);
   }
-
-  global._oracleTablesEnsured = true;
 }
 
 export async function migrateLegacyCollection(connection, collectionName, { force = false } = {}) {

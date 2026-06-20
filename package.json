@@ -10,8 +10,10 @@
     "seed": "node scripts/seed-oracle.mjs",
     "seed:oracle": "node scripts/seed-oracle.mjs",
     "seed:oracle:exercises": "node scripts/seed-oracle.mjs --exercises-only",
+    "seed:oracle:books": "node scripts/seed-oracle.mjs --books-only",
     "restore:history": "node scripts/restore-history-oracle.mjs",
     "fetch:images": "node scripts/fetch-exercise-images.mjs",
+    "fetch:book-covers": "node scripts/fetch-book-covers.mjs",
     "migrate:oracle": "node scripts/migrate-oracle.mjs"
   },
   "dependencies": {

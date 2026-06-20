@@ -29,3 +29,7 @@ export function getRoutineStorage() {
 export function getHistoryStorage() {
   return createStorage("history");
 }
+
+export function getBookStorage() {
+  return createStorage("books");
+}

@@ -1,3 +1,4 @@
+import { bookRowId } from "../books.js";
 import {
   ensureOracleTables,
   migrateLegacyCollection,
@@ -21,6 +22,11 @@ const TABLE_CONFIG = {
     table: "fc_history",
     orderBy: "started_at",
     writeRows: writeHistoryRows,
+  },
+  books: {
+    table: "fc_books",
+    orderBy: "sort_order",
+    writeRows: writeBookRows,
   },
 };
 
@@ -66,6 +72,23 @@ async function writeHistoryRows(connection, items) {
       {
         id: item._id,
         started_at: new Date(item.startedAt),
+        data: JSON.stringify(item),
+      },
+      { autoCommit: false },
+    );
+  }
+}
+
+async function writeBookRows(connection, items) {
+  await connection.execute(`DELETE FROM fc_books`, [], { autoCommit: false });
+
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+    await connection.execute(
+      `INSERT INTO fc_books (id, sort_order, data) VALUES (:id, :sort_order, :data)`,
+      {
+        id: bookRowId(item, index),
+        sort_order: index,
         data: JSON.stringify(item),
       },
       { autoCommit: false },

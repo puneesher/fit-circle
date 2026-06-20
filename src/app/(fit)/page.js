@@ -1,4 +1,4 @@
-import PageClient from "@/app/page-client";
+import PageClient from "@/app/(fit)/page-client";
 import { getWorkoutHomeData } from "@/lib/workout";
 
 export const dynamic = "force-dynamic";

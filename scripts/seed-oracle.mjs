@@ -10,12 +10,13 @@ loadEnv();
 
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
-const allCollections = ["exercises", "routines", "history"];
+const allCollections = ["exercises", "routines", "history", "books"];
 
 const only = new Set();
 if (process.argv.includes("--exercises-only")) only.add("exercises");
 if (process.argv.includes("--routines-only")) only.add("routines");
 if (process.argv.includes("--history-only")) only.add("history");
+if (process.argv.includes("--books-only")) only.add("books");
 
 const collections =
   only.size > 0 ? allCollections.filter((name) => only.has(name)) : allCollections;
@@ -80,10 +81,30 @@ async function writeHistoryRows(connection, items) {
   }
 }
 
+async function writeBookRows(connection, items) {
+  const { bookRowId } = await import("../src/lib/books.js");
+
+  await connection.execute(`DELETE FROM fc_books`, [], { autoCommit: false });
+
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+    await connection.execute(
+      `INSERT INTO fc_books (id, sort_order, data) VALUES (:id, :sort_order, :data)`,
+      {
+        id: bookRowId(item, index),
+        sort_order: index,
+        data: JSON.stringify(item),
+      },
+      { autoCommit: false },
+    );
+  }
+}
+
 const writers = {
   exercises: writeExerciseRows,
   routines: writeRoutineRows,
   history: writeHistoryRows,
+  books: writeBookRows,
 };
 
 let connection;

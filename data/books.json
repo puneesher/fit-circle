@@ -1,0 +1,171 @@
+[
+  {
+    "title": "The Book Thief",
+    "author": "Zusak, Markus",
+    "avg_rating": 4.39,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": "May 2025",
+    "date_added": "Jul 26, 2025",
+    "goodreads_id": 19063,
+    "Picture": "/images/books/the-book-thief-zusak-markus.jpg"
+  },
+  {
+    "title": "Vengeance: The True Story of an Israeli Counter-Terrorist Team",
+    "author": "Jonas, George",
+    "avg_rating": 4.13,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": null,
+    "date_added": "Jan 22, 2018",
+    "goodreads_id": 132779,
+    "Picture": "/images/books/vengeance-the-true-story-of-an-israeli-counter-terrorist-team-jonas-george.jpg"
+  },
+  {
+    "title": "La casa de los espíritus",
+    "author": "Allende, Isabel",
+    "avg_rating": 4.3,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": null,
+    "date_added": "Jan 25, 2022",
+    "goodreads_id": 106192,
+    "Picture": "/images/books/la-casa-de-los-esp-ritus-allende-isabel.jpg"
+  },
+  {
+    "title": "Born to Run: A Hidden Tribe, Superathletes, and the Greatest Race the World Has Never Seen",
+    "author": "McDougall, Christopher",
+    "avg_rating": 4.3,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": null,
+    "date_added": "Oct 23, 2017",
+    "goodreads_id": 6289283,
+    "Picture": "/images/books/born-to-run-a-hidden-tribe-superathletes-and-the-greatest-race-the-world-has-never-seen-mcdougall-christopher.jpg"
+  },
+  {
+    "title": "American on Purpose: The Improbable Adventures of an Unlikely Patriot",
+    "author": "Ferguson, Craig",
+    "avg_rating": 3.93,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": null,
+    "date_added": "Oct 23, 2017",
+    "goodreads_id": 6404621,
+    "Picture": "/images/books/american-on-purpose-the-improbable-adventures-of-an-unlikely-patriot-ferguson-craig.jpg"
+  },
+  {
+    "title": "The Power of Habit: Why We Do What We Do in Life and Business",
+    "author": "Duhigg, Charles",
+    "avg_rating": 4.13,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": null,
+    "date_added": "Oct 23, 2017",
+    "goodreads_id": 12609433,
+    "Picture": "/images/books/the-power-of-habit-why-we-do-what-we-do-in-life-and-business-duhigg-charles.jpg"
+  },
+  {
+    "title": "Sapiens: A Brief History of Humankind",
+    "author": "Harari, Yuval Noah",
+    "avg_rating": 4.33,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": null,
+    "date_added": "Oct 23, 2017",
+    "goodreads_id": 23692271,
+    "Picture": "/images/books/sapiens-a-brief-history-of-humankind-harari-yuval-noah.jpg"
+  },
+  {
+    "title": "The Nightingale",
+    "author": "Hannah, Kristin",
+    "avg_rating": 4.65,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": "Dec 31, 2024",
+    "date_added": "Oct 11, 2024",
+    "goodreads_id": 21853621,
+    "Picture": "/images/books/the-nightingale-hannah-kristin.jpg"
+  },
+  {
+    "title": "The Hate U Give (The Hate U Give, #1)",
+    "author": "Thomas, Angie",
+    "avg_rating": 4.45,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": "Nov 22, 2018",
+    "date_added": "Nov 23, 2018",
+    "goodreads_id": 32075671,
+    "Picture": "/images/books/the-hate-u-give-the-hate-u-give-1-thomas-angie.jpg"
+  },
+  {
+    "title": "Born a Crime: Stories from a South African Childhood",
+    "author": "Noah, Trevor",
+    "avg_rating": 4.49,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": null,
+    "date_added": "Oct 23, 2017",
+    "goodreads_id": 29780253,
+    "Picture": "/images/books/born-a-crime-stories-from-a-south-african-childhood-noah-trevor.jpg"
+  },
+  {
+    "title": "Educated",
+    "author": "Westover, Tara",
+    "avg_rating": 4.46,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": "Jun 04, 2023",
+    "date_added": "May 23, 2023",
+    "goodreads_id": 35133922,
+    "Picture": "/images/books/educated-westover-tara.jpg"
+  },
+  {
+    "title": "Project Hail Mary",
+    "author": "Weir, Andy",
+    "avg_rating": 4.51,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": "Oct 16, 2022",
+    "date_added": "Sep 07, 2022",
+    "goodreads_id": 54493401,
+    "Picture": "/images/books/project-hail-mary-weir-andy.jpg"
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow",
+    "author": "Zevin, Gabrielle",
+    "avg_rating": 4.11,
+    "user_rating": 5,
+    "shelves": [
+      "read"
+    ],
+    "date_read": "Mar 30, 2025",
+    "date_added": "Jan 03, 2025",
+    "goodreads_id": 58784475,
+    "Picture": "/images/books/tomorrow-and-tomorrow-and-tomorrow-zevin-gabrielle.jpg"
+  }
+]
