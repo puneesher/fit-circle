@@ -2,6 +2,7 @@ import {
   cancelWorkout,
   completeExercise,
   deleteWorkout,
+  editCompletedItem,
   endWorkout,
   getActiveSessions,
   setExerciseWeight,
@@ -16,6 +17,21 @@ export async function PATCH(request, { params }) {
   const { id } = await params;
   const body = await request.json();
   const { exerciseId, action, weight } = body;
+
+  if (action === "editItem") {
+    const { itemIndex, updates } = body;
+    if (itemIndex == null || !updates) {
+      return NextResponse.json(
+        { error: "itemIndex and updates are required" },
+        { status: 400 },
+      );
+    }
+    const result = await editCompletedItem(id, Number(itemIndex), updates);
+    if (!result) {
+      return NextResponse.json({ error: "Session or item not found" }, { status: 404 });
+    }
+    return NextResponse.json(result);
+  }
 
   if (action === "setWeight") {
     if (!exerciseId || weight == null) {

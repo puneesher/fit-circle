@@ -23,6 +23,8 @@ export function sessionVolume(session) {
   );
 }
 
+const MAX_CHART_DAYS = 30;
+
 export function dailyVolumeFromHistory(history) {
   const byDate = new Map();
 
@@ -35,7 +37,8 @@ export function dailyVolumeFromHistory(history) {
 
   return Array.from(byDate.entries())
     .map(([date, volume]) => ({ date, volume }))
-    .sort((a, b) => a.date.localeCompare(b.date));
+    .sort((a, b) => b.date.localeCompare(a.date)) // newest first
+    .slice(0, MAX_CHART_DAYS); // latest bar is first (leftmost)
 }
 
 export function formatVolume(volume) {

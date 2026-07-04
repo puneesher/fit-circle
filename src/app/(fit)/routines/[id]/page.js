@@ -1,4 +1,4 @@
-import WorkoutCard from "@/components/WorkoutCard";
+import SortableExerciseList from "@/components/SortableExerciseList";
 import { getNextRoutine, getRoutineWithExercises } from "@/lib/routines";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -43,16 +43,7 @@ export default async function RoutinePage({ params }) {
           )}
         </div>
 
-        <ol className="mt-6 space-y-4">
-          {routine.Items.map((item, index) => (
-            <li
-              key={`${item.exerciseId}-${index}`}
-              className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
-            >
-              <WorkoutCard item={item} />
-            </li>
-          ))}
-        </ol>
+        <SortableExerciseList routineId={id} initialItems={routine.Items} />
       </main>
     </div>
   );

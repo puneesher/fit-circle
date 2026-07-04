@@ -189,6 +189,40 @@ export async function setExerciseWeight(sessionId, exerciseId, weight) {
   return { session };
 }
 
+export async function editCompletedItem(sessionId, itemIndex, updates) {
+  const historyStorage = getHistoryStorage();
+  const history = await historyStorage.readAll();
+  const session = history.find((entry) => entry._id === sessionId);
+
+  if (!session) return null;
+  if (itemIndex < 0 || itemIndex >= session.completedItems.length) return null;
+
+  const item = { ...session.completedItems[itemIndex] };
+
+  const get = (cap, low) => updates[cap] !== undefined ? updates[cap] : updates[low];
+  const type   = get("Type",   "type");
+  const sets   = get("Sets",   "sets");
+  const reps   = get("Reps",   "reps");
+  const weight = get("Weight", "weight");
+  const unit   = get("Unit",   "unit");
+  const note   = get("Note",   "note");
+
+  if (type   !== undefined) item.Type   = type;
+  if (sets   !== undefined) item.Sets   = sets   === "" ? undefined : Number(sets);
+  if (reps   !== undefined) item.Reps   = reps   === "" ? undefined : Number(reps);
+  if (weight !== undefined) item.Weight = weight === "" || weight == null ? undefined : Number(weight);
+  if (unit   !== undefined) item.Unit   = unit   || undefined;
+  if (note   !== undefined) item.Note   = String(note).trim() || undefined;
+
+  // Remove undefined keys
+  Object.keys(item).forEach((k) => item[k] === undefined && delete item[k]);
+
+  session.completedItems[itemIndex] = item;
+  await historyStorage.writeAll(history);
+
+  return { session, updatedItem: item };
+}
+
 export async function endWorkout(sessionId) {
   const historyStorage = getHistoryStorage();
   const history = await historyStorage.readAll();
