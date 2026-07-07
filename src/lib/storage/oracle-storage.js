@@ -2,6 +2,7 @@ import { bookRowId } from "../books.js";
 import {
   ensureOracleTables,
   migrateLegacyCollection,
+  parseJsonValue,
   readJsonRows,
 } from "./oracle-schema";
 import { withOracleConnection } from "./oracle-client";
@@ -27,6 +28,11 @@ const TABLE_CONFIG = {
     table: "fc_books",
     orderBy: "sort_order",
     writeRows: writeBookRows,
+  },
+  users: {
+    table: "fc_users",
+    orderBy: "id",
+    writeRows: writeUserRows,
   },
 };
 
@@ -79,6 +85,17 @@ async function writeHistoryRows(connection, items) {
   }
 }
 
+async function writeUserRows(connection, items) {
+  await connection.execute(`DELETE FROM fc_users`, [], { autoCommit: false });
+  for (const item of items) {
+    await connection.execute(
+      `INSERT INTO fc_users (id, data) VALUES (:id, :data)`,
+      { id: item._id, data: JSON.stringify(item) },
+      { autoCommit: false },
+    );
+  }
+}
+
 async function writeBookRows(connection, items) {
   await connection.execute(`DELETE FROM fc_books`, [], { autoCommit: false });
 
@@ -115,6 +132,8 @@ async function loadCollection(connection, collectionName, config) {
   return seed;
 }
 
+const USER_SCOPED_COLLECTIONS = new Set(["routines", "history"]);
+
 export function createOracleStorage(collectionName) {
   const config = TABLE_CONFIG[collectionName];
 
@@ -127,6 +146,33 @@ export function createOracleStorage(collectionName) {
       return withOracleConnection(async (connection) =>
         loadCollection(connection, collectionName, config),
       );
+    },
+
+    async readByUser(userId) {
+      if (!USER_SCOPED_COLLECTIONS.has(collectionName)) {
+        return this.readAll();
+      }
+
+      return withOracleConnection(async (connection) => {
+        await ensureOracleTables(connection);
+
+        const sql = `
+          SELECT JSON_SERIALIZE(data RETURNING CLOB) AS data
+          FROM ${config.table}
+          WHERE JSON_VALUE(data, '$.userId') = :userId
+             OR (JSON_VALUE(data, '$.userId') IS NULL AND :userId2 = 'im')
+          ORDER BY ${config.orderBy}
+        `;
+
+        const result = await connection.execute(sql, { userId, userId2: userId });
+
+        return Promise.all(
+          result.rows.map((row) => {
+            const cell = Array.isArray(row) ? row[0] : (row.DATA ?? row.data);
+            return parseJsonValue(cell);
+          }),
+        );
+      });
     },
 
     async writeAll(items) {

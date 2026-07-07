@@ -9,13 +9,14 @@ oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
-const allCollections = ["exercises", "routines", "history", "books"];
+const allCollections = ["exercises", "routines", "history", "books", "users"];
 
 const only = new Set();
 if (process.argv.includes("--exercises-only")) only.add("exercises");
 if (process.argv.includes("--routines-only")) only.add("routines");
 if (process.argv.includes("--history-only")) only.add("history");
 if (process.argv.includes("--books-only")) only.add("books");
+if (process.argv.includes("--users-only")) only.add("users");
 
 const collections =
   only.size > 0 ? allCollections.filter((name) => only.has(name)) : allCollections;
@@ -40,6 +41,7 @@ const queries = {
   routines:  `SELECT data FROM fc_routines  ORDER BY sort_order`,
   history:   `SELECT data FROM fc_history   ORDER BY started_at`,
   books:     `SELECT data FROM fc_books     ORDER BY sort_order`,
+  users:     `SELECT data FROM fc_users     ORDER BY id`,
 };
 
 let connection;

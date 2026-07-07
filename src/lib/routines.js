@@ -1,11 +1,11 @@
 import { getExerciseStorage, getRoutineStorage } from "@/lib/storage";
 
-export async function getRoutineWithExercises(id) {
+export async function getRoutineWithExercises(id, userId) {
   const routineStorage = getRoutineStorage();
   const exerciseStorage = getExerciseStorage();
 
   const [routines, exercises] = await Promise.all([
-    routineStorage.readAll(),
+    userId ? routineStorage.readByUser(userId) : routineStorage.readAll(),
     exerciseStorage.readAll(),
   ]);
 
@@ -25,8 +25,11 @@ export async function getRoutineWithExercises(id) {
   };
 }
 
-export async function getNextRoutine(currentId) {
-  const routines = await getRoutineStorage().readAll();
+export async function getNextRoutine(currentId, userId) {
+  const routineStorage = getRoutineStorage();
+  const routines = userId
+    ? await routineStorage.readByUser(userId)
+    : await routineStorage.readAll();
   const index = routines.findIndex((entry) => entry._id === currentId);
 
   if (index === -1 || routines.length < 2) return null;

@@ -26,7 +26,7 @@ const DndContext = dynamic(
   { ssr: false },
 );
 
-function SortableRoutineItem({ routine }) {
+function SortableRoutineItem({ routine, username }) {
   const {
     attributes,
     listeners,
@@ -65,7 +65,7 @@ function SortableRoutineItem({ routine }) {
 
       {/* Routine link */}
       <Link
-        href={`/routines/${routine._id}`}
+        href={username ? `/${username}/routines/${routine._id}` : `/routines/${routine._id}`}
         className="min-w-0 flex-1"
         tabIndex={isDragging ? -1 : 0}
       >
@@ -80,7 +80,7 @@ function SortableRoutineItem({ routine }) {
   );
 }
 
-export default function SortableRoutineList({ initialRoutines }) {
+export default function SortableRoutineList({ initialRoutines, username }) {
   const [routines, setRoutines] = useState(initialRoutines);
   const [saving, setSaving] = useState(false);
 
@@ -108,13 +108,13 @@ export default function SortableRoutineList({ initialRoutines }) {
         await fetch("/api/routines/reorder", {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ids: reordered.map((r) => r._id) }),
+          body: JSON.stringify({ ids: reordered.map((r) => r._id), userId: username }),
         });
       } finally {
         setSaving(false);
       }
     },
-    [routines],
+    [routines, username],
   );
 
   return (
@@ -135,7 +135,7 @@ export default function SortableRoutineList({ initialRoutines }) {
         >
           <ul className="mt-6 space-y-3">
             {routines.map((routine) => (
-              <SortableRoutineItem key={routine._id} routine={routine} />
+              <SortableRoutineItem key={routine._id} routine={routine} username={username} />
             ))}
           </ul>
         </SortableContext>

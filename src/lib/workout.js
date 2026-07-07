@@ -14,13 +14,15 @@ function todayDate() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export async function getActiveSessions() {
-  const history = await getHistoryStorage().readAll();
+export async function getActiveSessions(userId) {
+  const history = userId
+    ? await getHistoryStorage().readByUser(userId)
+    : await getHistoryStorage().readAll();
   return history.filter((entry) => entry.status === "active");
 }
 
-export async function getActiveSession() {
-  const actives = await getActiveSessions();
+export async function getActiveSession(userId) {
+  const actives = await getActiveSessions(userId);
   if (actives.length === 0) return null;
 
   return actives.sort(
@@ -28,11 +30,13 @@ export async function getActiveSession() {
   )[0];
 }
 
-export async function getWorkoutHomeData() {
-  const [routines, activeSessions] = await Promise.all([
-    getRoutineStorage().readAll(),
-    getActiveSessions(),
+export async function getWorkoutHomeData(userId) {
+  const [routines, userHistory] = await Promise.all([
+    userId ? getRoutineStorage().readByUser(userId) : getRoutineStorage().readAll(),
+    userId ? getHistoryStorage().readByUser(userId) : getHistoryStorage().readAll(),
   ]);
+
+  const activeSessions = userHistory.filter((entry) => entry.status === "active");
 
   const activeSession = activeSessions.length
     ? activeSessions.sort(
@@ -55,6 +59,7 @@ export async function getWorkoutHomeData() {
 
 export async function rotateRoutineToEnd(routineId) {
   const storage = getRoutineStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const routines = await storage.readAll();
   const index = routines.findIndex((entry) => entry._id === routineId);
 
@@ -68,6 +73,7 @@ export async function rotateRoutineToEnd(routineId) {
 
 export async function rotateItemToEnd(routineId, exerciseId) {
   const storage = getRoutineStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const routines = await storage.readAll();
   const routine = routines.find((entry) => entry._id === routineId);
 
@@ -82,17 +88,19 @@ export async function rotateItemToEnd(routineId, exerciseId) {
   return routine;
 }
 
-export async function startWorkoutDay(routineId) {
+export async function startWorkoutDay(routineId, userId) {
   const routine = await getRoutineWithExercises(routineId);
   if (!routine) return null;
 
   const storage = getHistoryStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const history = await storage.readAll();
   const now = new Date().toISOString();
   const date = todayDate();
 
+  // Only cancel active sessions belonging to the same user
   for (const entry of history) {
-    if (entry.status === "active") {
+    if (entry.status === "active" && (entry.userId ?? "im") === userId) {
       entry.status = "completed";
       entry.completedAt = now;
     }
@@ -105,6 +113,7 @@ export async function startWorkoutDay(routineId) {
     routineId,
     routineName: routine.Name,
     status: "active",
+    userId,
     completedItems: [],
     weightQueues: {},
   };
@@ -119,10 +128,13 @@ export async function startWorkoutDay(routineId) {
   };
 }
 
-export async function completeExercise(sessionId, exerciseId) {
+export async function completeExercise(sessionId, exerciseId, userId) {
   const historyStorage = getHistoryStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const history = await historyStorage.readAll();
-  const session = history.find((entry) => entry._id === sessionId);
+  const session = history.find(
+    (entry) => entry._id === sessionId && (userId == null || (entry.userId ?? "im") === userId),
+  );
 
   if (!session || session.status !== "active") return null;
 
@@ -163,36 +175,56 @@ export async function completeExercise(sessionId, exerciseId) {
   };
 }
 
-export async function setExerciseWeight(sessionId, exerciseId, weight) {
+export async function setExerciseWeight(sessionId, exerciseId, weight, userId, sets, reps) {
   const historyStorage = getHistoryStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const history = await historyStorage.readAll();
-  const session = history.find((entry) => entry._id === sessionId);
+  const session = history.find(
+    (entry) => entry._id === sessionId && (userId == null || (entry.userId ?? "im") === userId),
+  );
 
   if (!session || session.status !== "active") return null;
 
   const routine = await getRoutineWithExercises(session.routineId);
   const item = routine?.Items.find((entry) => entry.exerciseId === exerciseId);
 
-  if (!item || item.Weight == null) return null;
+  if (!item) return null;
 
-  if (!session.weightQueues) {
-    session.weightQueues = {};
+  // Update weight queue if weight provided
+  if (weight != null) {
+    if (!session.weightQueues) {
+      session.weightQueues = {};
+    }
+    if (!session.weightQueues[exerciseId]) {
+      session.weightQueues[exerciseId] = [];
+    }
+    session.weightQueues[exerciseId].push(weight);
   }
 
-  if (!session.weightQueues[exerciseId]) {
-    session.weightQueues[exerciseId] = [];
+  // Update sets/reps overrides on the session
+  if (sets != null || reps != null) {
+    if (!session.exerciseOverrides) {
+      session.exerciseOverrides = {};
+    }
+    if (!session.exerciseOverrides[exerciseId]) {
+      session.exerciseOverrides[exerciseId] = {};
+    }
+    if (sets != null) session.exerciseOverrides[exerciseId].Sets = sets;
+    if (reps != null) session.exerciseOverrides[exerciseId].Reps = reps;
   }
 
-  session.weightQueues[exerciseId].push(weight);
   await historyStorage.writeAll(history);
 
   return { session };
 }
 
-export async function editCompletedItem(sessionId, itemIndex, updates) {
+export async function editCompletedItem(sessionId, itemIndex, updates, userId) {
   const historyStorage = getHistoryStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const history = await historyStorage.readAll();
-  const session = history.find((entry) => entry._id === sessionId);
+  const session = history.find(
+    (entry) => entry._id === sessionId && (userId == null || (entry.userId ?? "im") === userId),
+  );
 
   if (!session) return null;
   if (itemIndex < 0 || itemIndex >= session.completedItems.length) return null;
@@ -223,10 +255,13 @@ export async function editCompletedItem(sessionId, itemIndex, updates) {
   return { session, updatedItem: item };
 }
 
-export async function endWorkout(sessionId) {
+export async function endWorkout(sessionId, userId) {
   const historyStorage = getHistoryStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const history = await historyStorage.readAll();
-  const session = history.find((entry) => entry._id === sessionId);
+  const session = history.find(
+    (entry) => entry._id === sessionId && (userId == null || (entry.userId ?? "im") === userId),
+  );
 
   if (!session || session.status !== "active") return null;
 
@@ -237,10 +272,13 @@ export async function endWorkout(sessionId) {
   return session;
 }
 
-export async function cancelWorkout(sessionId) {
+export async function cancelWorkout(sessionId, userId) {
   const historyStorage = getHistoryStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const history = await historyStorage.readAll();
-  const session = history.find((entry) => entry._id === sessionId);
+  const session = history.find(
+    (entry) => entry._id === sessionId && (userId == null || (entry.userId ?? "im") === userId),
+  );
 
   if (!session || session.status !== "active") return null;
 
@@ -251,10 +289,13 @@ export async function cancelWorkout(sessionId) {
   return session;
 }
 
-export async function deleteWorkout(sessionId) {
+export async function deleteWorkout(sessionId, userId) {
   const historyStorage = getHistoryStorage();
+  // Must use readAll() for writes to avoid overwriting other users' data
   const history = await historyStorage.readAll();
-  const index = history.findIndex((entry) => entry._id === sessionId);
+  const index = history.findIndex(
+    (entry) => entry._id === sessionId && (userId == null || (entry.userId ?? "im") === userId),
+  );
 
   if (index === -1) return null;
 
@@ -267,8 +308,10 @@ export async function deleteWorkout(sessionId) {
   return session;
 }
 
-export async function getWorkoutHistory() {
-  const history = await getHistoryStorage().readAll();
+export async function getWorkoutHistory(userId) {
+  const history = userId
+    ? await getHistoryStorage().readByUser(userId)
+    : await getHistoryStorage().readAll();
   return history.sort(
     (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
   );

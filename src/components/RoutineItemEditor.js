@@ -63,6 +63,7 @@ export default function RoutineItemEditor({
   itemIndex,
   routineId,
   sessionId,
+  userId,
   open,
   onCancel,
   onSaved,
@@ -105,6 +106,7 @@ export default function RoutineItemEditor({
             action: "editItem",
             itemIndex,
             updates: { type, sets, reps, weight, unit, note },
+            userId,
           }),
         });
       } else {
@@ -112,7 +114,7 @@ export default function RoutineItemEditor({
         res = await fetch(`/api/routines/${routineId}/items/${itemIndex}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ type, sets, reps, weight, unit, note }),
+          body: JSON.stringify({ type, sets, reps, weight, unit, note, userId }),
         });
       }
 

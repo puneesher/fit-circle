@@ -112,11 +112,22 @@ async function insertBookRows(connection, items) {
   }
 }
 
+async function insertUserRows(connection, items) {
+  for (const item of items) {
+    await connection.execute(
+      `INSERT INTO fc_users (id, data) VALUES (:id, :data)`,
+      { id: item._id, data: JSON.stringify(item) },
+      { autoCommit: false },
+    );
+  }
+}
+
 const MIGRATIONS = {
   exercises: { table: "fc_exercises", insert: insertExerciseRows },
   routines: { table: "fc_routines", insert: insertRoutineRows },
   history: { table: "fc_history", insert: insertHistoryRows },
   books: { table: "fc_books", insert: insertBookRows },
+  users: { table: "fc_users", insert: insertUserRows },
 };
 
 const TABLE_DDLS = {
@@ -146,6 +157,11 @@ const TABLE_DDLS = {
     CREATE TABLE fc_books (
       id VARCHAR2(256) PRIMARY KEY,
       sort_order NUMBER NOT NULL,
+      data JSON NOT NULL
+    )`,
+  fc_users: `
+    CREATE TABLE fc_users (
+      id VARCHAR2(64) PRIMARY KEY,
       data JSON NOT NULL
     )`,
 };

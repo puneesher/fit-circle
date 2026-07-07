@@ -18,7 +18,7 @@ function PencilIcon() {
   );
 }
 
-export default function HistoryDetailClient({ initialSession }) {
+export default function HistoryDetailClient({ initialSession, username }) {
   const [session, setSession] = useState(initialSession);
   const [editingIndex, setEditingIndex] = useState(null);
 
@@ -42,7 +42,9 @@ export default function HistoryDetailClient({ initialSession }) {
   return (
     <div className="min-h-full bg-zinc-50 dark:bg-zinc-950">
       <main className="mx-auto max-w-lg px-4 py-4">
-        <p className="text-sm text-zinc-500">Workout</p>
+        <p className="text-sm text-zinc-500">
+          <a href={`/${username}/history`} className="hover:underline">Workout History</a>
+        </p>
         <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
           {session.routineName}
         </h1>
@@ -130,6 +132,7 @@ export default function HistoryDetailClient({ initialSession }) {
         item={editingItem}
         itemIndex={editingIndex}
         sessionId={session._id}
+        userId={username}
         open={editingIndex !== null}
         onCancel={() => setEditingIndex(null)}
         onSaved={handleSaved}

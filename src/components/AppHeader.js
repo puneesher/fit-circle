@@ -1,60 +1,43 @@
-"use client";
+import { getUserStorage } from "@/lib/storage";
+import AppHeaderNav from "./AppHeaderNav";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+export default async function AppHeader({ username }) {
+  let avatar = null;
+  let displayName = null;
+  let links = [];
+  let brandHref = "/";
 
-const nav = [
-  { href: "/history", label: "History", key: "history" },
-  { href: "/routines", label: "Routines", key: "routines" },
-  { href: "/exercises", label: "Exercises", key: "exercises" },
-];
+  if (username) {
+    // Fetch user data server-side
+    try {
+      const users = await getUserStorage().readAll();
+      const user = users.find((u) => u.username === username);
+      if (user) {
+        avatar = user.avatar;
+        displayName = user.displayName;
+      }
+    } catch {
+      // If storage fails, render header without user info
+    }
 
-function getActiveKey(pathname) {
-  if (pathname.startsWith("/history")) return "history";
-  if (pathname.startsWith("/routines")) return "routines";
-  if (pathname.startsWith("/exercises")) return "exercises";
-  return null;
-}
-
-export default function AppHeader() {
-  const pathname = usePathname();
-  const active = getActiveKey(pathname);
+    brandHref = `/${username}/sessions`;
+    links = [
+      { href: `/${username}/sessions`, label: "Sessions", key: "sessions" },
+      { href: `/${username}/routines`, label: "Routines", key: "routines" },
+      { href: `/${username}/history`, label: "History", key: "history" },
+      { href: "/exercises", label: "Exercises", key: "exercises" },
+    ];
+  }
 
   return (
     <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-      <div className="mx-auto flex max-w-lg items-center justify-between px-4 py-4">
-        <Link
-          href="/"
-          aria-current={pathname === "/" ? "page" : undefined}
-          className={
-            pathname === "/"
-              ? "text-xl font-semibold text-zinc-900 underline decoration-zinc-300 underline-offset-4 dark:text-zinc-50 dark:decoration-zinc-600"
-              : "text-xl font-semibold text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
-          }
-        >
-          Fitness Circle
-        </Link>
-        <nav className="flex items-center gap-1 text-sm">
-          {nav.map((item) => {
-            const isActive = active === item.key;
-
-            return (
-              <Link
-                key={item.key}
-                href={item.href}
-                aria-current={isActive ? "page" : undefined}
-                className={
-                  isActive
-                    ? "rounded-full bg-zinc-900 px-2.5 py-1 font-medium text-white dark:bg-zinc-100 dark:text-zinc-900"
-                    : "rounded-full px-2.5 py-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
-                }
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
+      <AppHeaderNav
+        links={links}
+        username={username || null}
+        brandHref={brandHref}
+        avatar={avatar}
+        displayName={displayName}
+      />
     </header>
   );
 }

@@ -6,8 +6,8 @@ import { notFound } from "next/navigation";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
-  const { id } = await params;
-  const routine = await getRoutineWithExercises(id);
+  const { username, id } = await params;
+  const routine = await getRoutineWithExercises(id, username);
 
   return {
     title: routine ? `${routine.Name} | Fitness Circle` : "Routine | Fitness Circle",
@@ -15,10 +15,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function RoutinePage({ params }) {
-  const { id } = await params;
+  const { username, id } = await params;
   const [routine, nextRoutine] = await Promise.all([
-    getRoutineWithExercises(id),
-    getNextRoutine(id),
+    getRoutineWithExercises(id, username),
+    getNextRoutine(id, username),
   ]);
 
   if (!routine) notFound();
@@ -35,7 +35,7 @@ export default async function RoutinePage({ params }) {
           </div>
           {nextRoutine && (
             <Link
-              href={`/routines/${nextRoutine._id}`}
+              href={`/${username}/routines/${nextRoutine._id}`}
               className="shrink-0 text-sm font-medium text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
             >
               Next →

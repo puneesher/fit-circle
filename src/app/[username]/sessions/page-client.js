@@ -6,6 +6,7 @@ import { withEffectiveWeight } from "@/lib/exercise-weight";
 import { useState } from "react";
 
 export default function PageClient({
+  username,
   initialRoutines,
   initialSession,
   initialRoutine,
@@ -35,7 +36,7 @@ export default function PageClient({
       const res = await fetch("/api/history", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ routineId: selectedRoutineId }),
+        body: JSON.stringify({ routineId: selectedRoutineId, userId: username }),
       });
 
       if (!res.ok) {
@@ -48,7 +49,7 @@ export default function PageClient({
       setRoutine(data.routine);
       setRoutinePanelOpen(false);
 
-      const routinesRes = await fetch("/api/routines");
+      const routinesRes = await fetch(`/api/routines?userId=${username}`);
       if (routinesRes.ok) {
         setRoutines(await routinesRes.json());
       }
@@ -69,7 +70,7 @@ export default function PageClient({
       const res = await fetch(`/api/history/${session._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ exerciseId }),
+        body: JSON.stringify({ exerciseId, userId: username }),
       });
 
       if (!res.ok) {
@@ -88,7 +89,7 @@ export default function PageClient({
     }
   }
 
-  async function saveWeight(exerciseId, weight) {
+  async function saveWeight(exerciseId, { weight, sets, reps }) {
     if (!session) return;
 
     setLoading(true);
@@ -98,7 +99,7 @@ export default function PageClient({
       const res = await fetch(`/api/history/${session._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "setWeight", exerciseId, weight }),
+        body: JSON.stringify({ action: "setWeight", exerciseId, weight, sets, reps, userId: username }),
       });
 
       if (!res.ok) {
@@ -126,7 +127,7 @@ export default function PageClient({
       const res = await fetch(`/api/history/${session._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action }),
+        body: JSON.stringify({ action, userId: username }),
       });
 
       if (!res.ok) {
@@ -188,7 +189,9 @@ export default function PageClient({
               </h2>
               <p className="mt-0.5 text-sm text-zinc-500">
                 {routinePanelOpen
-                  ? "Top routine is up next. Starting one moves it to the bottom."
+                  ? routines.length === 0
+                    ? "There are no routines created."
+                    : "Top routine is up next. Starting one moves it to the bottom."
                   : hasActiveSession
                     ? "Workout in progress · tap to change routine"
                     : "Tap to choose a different routine"}
@@ -274,7 +277,7 @@ export default function PageClient({
         }
         loading={loading}
         onCancel={() => setEditorItem(null)}
-        onConfirm={(weight) => saveWeight(editorItem.exerciseId, weight)}
+        onConfirm={(values) => saveWeight(editorItem.exerciseId, values)}
       />
     </div>
   );

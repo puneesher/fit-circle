@@ -33,3 +33,7 @@ export function getHistoryStorage() {
 export function getBookStorage() {
   return createStorage("books");
 }
+
+export function getUserStorage() {
+  return createStorage("users");
+}

@@ -14,8 +14,9 @@ export const metadata = {
   title: "History | Fitness Circle",
 };
 
-export default async function HistoryPage() {
-  const history = await getWorkoutHistory();
+export default async function HistoryPage({ params }) {
+  const { username } = await params;
+  const history = await getWorkoutHistory(username);
 
   return (
     <div className="min-h-full bg-zinc-50 dark:bg-zinc-950">
@@ -36,7 +37,7 @@ export default async function HistoryPage() {
             {history.map((session) => (
               <li key={session._id}>
                 <Link
-                  href={`/history/${session._id}`}
+                  href={`/${username}/history/${session._id}`}
                   className="block rounded-xl border border-zinc-200 bg-white px-4 py-4 transition-colors hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
                 >
                   <div className="flex items-start justify-between gap-3">

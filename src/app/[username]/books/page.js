@@ -9,7 +9,8 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function BooksPage() {
+export default async function BooksPage({ params }) {
+  const { username } = await params;
   const books = await getBookStorage().readAll();
 
   return (

@@ -25,6 +25,11 @@ export function createJsonFileStorage(collection) {
       }
     },
 
+    async readByUser(userId) {
+      const items = await this.readAll();
+      return items.filter(item => (item.userId ?? "im") === userId);
+    },
+
     async writeAll(items) {
       await fs.mkdir(DATA_DIR, { recursive: true });
       await fs.writeFile(filePath, JSON.stringify(items, null, 2), "utf-8");
