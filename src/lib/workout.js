@@ -238,6 +238,7 @@ export async function editCompletedItem(sessionId, itemIndex, updates, userId) {
   const weight = get("Weight", "weight");
   const unit   = get("Unit",   "unit");
   const note   = get("Note",   "note");
+  const unilateral = get("Unilateral", "unilateral");
 
   if (type   !== undefined) item.Type   = type;
   if (sets   !== undefined) item.Sets   = sets   === "" ? undefined : Number(sets);
@@ -245,6 +246,7 @@ export async function editCompletedItem(sessionId, itemIndex, updates, userId) {
   if (weight !== undefined) item.Weight = weight === "" || weight == null ? undefined : Number(weight);
   if (unit   !== undefined) item.Unit   = unit   || undefined;
   if (note   !== undefined) item.Note   = String(note).trim() || undefined;
+  if (unilateral !== undefined) item.Unilateral = Boolean(unilateral) || undefined;
 
   // Remove undefined keys
   Object.keys(item).forEach((k) => item[k] === undefined && delete item[k]);

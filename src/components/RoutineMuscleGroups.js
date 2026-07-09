@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import BodyMap from "@/components/BodyMap";
 
 export default function RoutineMuscleGroups({
   routineId,
@@ -10,6 +11,17 @@ export default function RoutineMuscleGroups({
 }) {
   const [selected, setSelected] = useState(initialSelected);
   const [saving, setSaving] = useState(false);
+
+  // Build zone color map from selected groups
+  const zoneColors = {};
+  for (const groupId of selected) {
+    const group = muscleGroups.find((g) => g._id === groupId);
+    if (group?.zones) {
+      for (const zone of group.zones) {
+        zoneColors[zone] = group.color;
+      }
+    }
+  }
 
   async function toggle(groupId) {
     const prev = selected;
@@ -39,6 +51,13 @@ export default function RoutineMuscleGroups({
 
   return (
     <div className="mt-3 mb-4">
+      {/* Body map showing selected muscle groups */}
+      {Object.keys(zoneColors).length > 0 && (
+        <div className="mb-4">
+          <BodyMap zoneColors={zoneColors} />
+        </div>
+      )}
+
       <p className="mb-2 text-xs font-medium text-zinc-500">Muscle Groups</p>
       <div className="flex flex-wrap gap-2">
         {muscleGroups.map((group) => {

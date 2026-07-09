@@ -42,6 +42,7 @@ export async function PATCH(request, { params }) {
   const weight = get("Weight", "weight");
   const unit = get("Unit", "unit");
   const note = get("Note", "note");
+  const unilateral = get("Unilateral", "unilateral");
 
   if (type !== undefined) updatedItem.Type = type;
   if (sets !== undefined) updatedItem.Sets = sets === "" ? undefined : Number(sets);
@@ -49,6 +50,7 @@ export async function PATCH(request, { params }) {
   if (weight !== undefined) updatedItem.Weight = weight === "" || weight == null ? undefined : Number(weight);
   if (unit !== undefined) updatedItem.Unit = unit || undefined;
   if (note !== undefined) updatedItem.Note = String(note).trim() || undefined;
+  if (unilateral !== undefined) updatedItem.Unilateral = Boolean(unilateral) || undefined;
 
   // Remove undefined keys to keep data clean
   Object.keys(updatedItem).forEach((k) => updatedItem[k] === undefined && delete updatedItem[k]);

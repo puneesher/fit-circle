@@ -8,7 +8,7 @@
         "Type": "Push",
         "Weight": 35,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Note": "Manuel Valdivieso",
         "Sets": 4,
         "Reps": 12
@@ -18,7 +18,7 @@
         "Type": "Pull",
         "Weight": 95,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -27,7 +27,7 @@
         "Type": "Push",
         "Weight": 60,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -52,7 +52,7 @@
         "Type": "Pull",
         "Weight": 75,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -61,7 +61,7 @@
         "Type": "Push",
         "Weight": 50,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -70,7 +70,7 @@
         "Type": "Pull",
         "Weight": 115,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -79,7 +79,7 @@
         "Type": "Push",
         "Weight": 120,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -88,7 +88,7 @@
         "Type": "Pull",
         "Weight": 95,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 13
       },
@@ -97,7 +97,7 @@
         "Type": "Push",
         "Weight": 60,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -114,7 +114,7 @@
         "Type": "Push",
         "Weight": 50,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -201,7 +201,7 @@
         "Type": "Push",
         "Weight": 70,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       },
@@ -246,7 +246,7 @@
         "Type": "Pull",
         "Weight": 80,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       }
@@ -261,7 +261,7 @@
         "Type": "Pull",
         "Weight": 25,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 10
       },
@@ -334,7 +334,7 @@
         "Type": "Push",
         "Weight": 65,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12
       }

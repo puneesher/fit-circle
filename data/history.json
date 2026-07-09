@@ -58,7 +58,7 @@
         "Type": "Push",
         "Weight": 65,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12,
         "completedAt": "2026-06-15T19:25:49.576Z"
@@ -79,7 +79,7 @@
         "Type": "Push",
         "Weight": 60,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12,
         "completedAt": "2026-06-16T14:59:18.015Z"
@@ -89,7 +89,7 @@
         "Type": "Pull",
         "Weight": 95,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Sets": 4,
         "Reps": 12,
         "completedAt": "2026-06-16T15:07:03.341Z"
@@ -99,7 +99,7 @@
         "Type": "Push",
         "Weight": 35,
         "Unit": "lb",
-        "Prefix": "2×",
+        "Unilateral": true,
         "Note": "Manuel Valdivieso",
         "Sets": 4,
         "Reps": 12,

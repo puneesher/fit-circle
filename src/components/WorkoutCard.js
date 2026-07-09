@@ -6,9 +6,9 @@ import { formatWeight, typeBadgeClass } from "@/lib/format-weight";
 function WorkoutDetails({ item, done, isNext }) {
   return (
     <>
-      <div className="flex flex-wrap items-start justify-between gap-2">
+      <div className="flex items-start gap-2">
         <h3
-          className={`font-medium ${
+          className={`min-w-0 flex-1 font-medium ${
             done
               ? "text-zinc-500 line-through dark:text-zinc-400"
               : "text-zinc-900 dark:text-zinc-50"
@@ -17,7 +17,7 @@ function WorkoutDetails({ item, done, isNext }) {
           {item.Exercise?.Name ?? item.exerciseId}
         </h3>
         <span
-          className={`rounded-full px-2 py-0.5 text-xs font-medium ${typeBadgeClass(item.Type)}`}
+          className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${typeBadgeClass(item.Type)}`}
         >
           {item.Type}
         </span>

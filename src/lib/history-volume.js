@@ -1,17 +1,10 @@
-function weightMultiplier(prefix) {
-  if (!prefix) return 1;
-
-  const match = String(prefix).match(/^(\d+)×/);
-  return match ? Number(match[1]) : 1;
-}
-
 export function exerciseVolume(item) {
   if (item.Weight == null || item.Sets == null || item.Reps == null) {
     return 0;
   }
 
-  const weight = item.Weight * weightMultiplier(item.Prefix);
-  return item.Sets * item.Reps * weight;
+  const multiplier = item.Unilateral ? 2 : 1;
+  return item.Sets * item.Reps * item.Weight * multiplier;
 }
 
 export function sessionVolume(session) {
@@ -42,13 +35,16 @@ export function dailyVolumeFromHistory(history) {
 }
 
 export function formatVolume(volume) {
+  if (volume >= 1000) {
+    return `${Math.round(volume / 1000)}K`;
+  }
   return Math.round(volume).toLocaleString();
 }
 
 export function formatChartDate(date) {
   const [year, month, day] = date.split("-").map(Number);
   return new Date(year, month - 1, day).toLocaleDateString(undefined, {
-    month: "short",
+    month: "numeric",
     day: "numeric",
   });
 }

@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * POST /api/routines/[id]/items
- * Body: { exerciseId, Type, Sets, Reps, Weight, Unit, Note }
+ * Body: { exerciseId, Type, Sets, Reps, Weight, Unit, Note, Unilateral }
  * Appends a new item to the routine's Items array and persists.
  */
 export async function POST(request, { params }) {
@@ -33,6 +33,7 @@ export async function POST(request, { params }) {
     ...(item.Weight != null && item.Weight !== "" && { Weight: Number(item.Weight) }),
     ...(item.Unit && { Unit: item.Unit }),
     ...(item.Note && { Note: item.Note }),
+    ...(item.Unilateral && { Unilateral: Boolean(item.Unilateral) }),
   };
 
   const updatedRoutine = { ...routine, Items: [...routine.Items, newItem] };

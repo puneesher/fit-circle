@@ -47,6 +47,7 @@ export default function AddExerciseDialog({ open, routineId, onClose, onAdded })
   const [weight, setWeight] = useState("");
   const [unit, setUnit] = useState("lb");
   const [note, setNote] = useState("");
+  const [unilateral, setUnilateral] = useState(false);
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -83,6 +84,7 @@ export default function AddExerciseDialog({ open, routineId, onClose, onAdded })
     setWeight("");
     setUnit("lb");
     setNote("");
+    setUnilateral(false);
     setError(null);
   }
 
@@ -166,6 +168,7 @@ export default function AddExerciseDialog({ open, routineId, onClose, onAdded })
         ...(reps !== "" && { Reps: Number(reps) }),
         ...(weight !== "" && { Weight: Number(weight), Unit: unit }),
         ...(note.trim() && { Note: note.trim() }),
+        ...(unilateral && { Unilateral: true }),
       };
 
       const routineRes = await fetch(`/api/routines/${routineId}/items`, {
@@ -401,6 +404,37 @@ export default function AddExerciseDialog({ open, routineId, onClose, onAdded })
                       ))}
                     </select>
                   </Field>
+                </div>
+
+                {/* Unilateral */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                      Unilateral
+                    </p>
+                    <p className="text-xs text-zinc-500">
+                      One arm/leg at a time — doubles the counted volume
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={unilateral}
+                    onClick={() => setUnilateral((v) => !v)}
+                    className={`relative ml-3 h-7 w-12 shrink-0 rounded-full border transition-colors ${
+                      unilateral
+                        ? "border-zinc-900 bg-zinc-900 dark:border-zinc-100 dark:bg-zinc-100"
+                        : "border-zinc-300 bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-700"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 h-5.5 w-5.5 rounded-full shadow transition-transform ${
+                        unilateral
+                          ? "translate-x-5 bg-white dark:bg-zinc-900"
+                          : "translate-x-0 bg-white dark:bg-zinc-400"
+                      }`}
+                    />
+                  </button>
                 </div>
 
                 {/* Note */}

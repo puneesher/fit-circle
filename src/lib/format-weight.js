@@ -1,7 +1,8 @@
 export function formatWeight(item) {
   if (item.Weight == null) return null;
 
-  const value = `${item.Prefix ?? ""}${item.Weight}`;
+  const prefix = item.Unilateral ? "2×" : "";
+  const value = `${prefix}${item.Weight}`;
   return item.Unit ? `${value} ${item.Unit}` : value;
 }
 

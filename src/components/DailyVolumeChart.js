@@ -38,7 +38,7 @@ export default function DailyVolumeChart({ history, routineColors = {} }) {
         Sets × reps × weight, summed per day
       </p>
 
-      <div className="mt-4 flex h-44 items-end gap-2">
+      <div className="mt-4 flex h-44 items-end gap-0.5">
         {data.map((entry) => {
           const height = maxVolume > 0 ? (entry.volume / maxVolume) * 100 : 0;
           const colors = dateColors[entry.date];
@@ -49,20 +49,21 @@ export default function DailyVolumeChart({ history, routineColors = {} }) {
               key={entry.date}
               className="flex min-w-0 flex-1 flex-col items-center gap-2"
             >
-              <span className="text-[10px] font-medium text-zinc-600 dark:text-zinc-300">
-                {formatVolume(entry.volume)}
-              </span>
-              <div className="flex h-28 w-full items-end">
+              <div className="flex h-36 w-full items-end">
                 <div
-                  className={`w-full rounded-t-md ${!bg ? "bg-zinc-900 dark:bg-zinc-100" : ""}`}
+                  className={`relative w-full overflow-hidden rounded-t-md ${!bg ? "bg-zinc-900 dark:bg-zinc-100" : ""}`}
                   style={{
-                    height: `${Math.max(height, 4)}%`,
+                    height: `${Math.max(height, 8)}%`,
                     ...(bg ? { background: bg } : {}),
                   }}
                   title={`${formatChartDate(entry.date)}: ${formatVolume(entry.volume)}`}
-                />
+                >
+                  <span className="absolute inset-x-0 top-1 text-center text-[9px] font-bold text-white dark:text-zinc-900">
+                    {formatVolume(entry.volume)}
+                  </span>
+                </div>
               </div>
-              <span className="text-[10px] text-zinc-500">
+              <span className="whitespace-nowrap text-[10px] text-zinc-500">
                 {formatChartDate(entry.date)}
               </span>
             </div>
