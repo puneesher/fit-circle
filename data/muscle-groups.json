@@ -1,1 +1,8 @@
-[]
+[
+  { "_id": "chest", "name": "Chest", "color": "#ef4444", "zones": ["chest"] },
+  { "_id": "back", "name": "Back", "color": "#3b82f6", "zones": ["upper-back", "lats", "lower-back"] },
+  { "_id": "shoulders", "name": "Shoulders", "color": "#f97316", "zones": ["shoulders", "traps"] },
+  { "_id": "arms", "name": "Arms", "color": "#a855f7", "zones": ["biceps", "triceps", "forearms"] },
+  { "_id": "core", "name": "Core", "color": "#22c55e", "zones": ["abs", "obliques"] },
+  { "_id": "legs", "name": "Legs", "color": "#14b8a6", "zones": ["quads", "hamstrings", "calves", "adductors", "glutes"] }
+]

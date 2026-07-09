@@ -12,14 +12,11 @@ const FRONT_ZONES = [
   // Shoulders (left + right)
   { id: "shoulders", d: "M28,52 C28,46 34,42 40,42 L44,42 L44,56 C38,56 28,56 28,52 Z" },
   { id: "shoulders", d: "M76,52 C76,46 70,42 64,42 L60,42 L60,56 C66,56 76,56 76,52 Z" },
-  // Chest (left + right)
-  { id: "chest", d: "M44,56 L60,56 L60,74 C56,76 48,76 44,74 Z" },
-  // Biceps
+  // Chest (center torso on front)
+  { id: "chest", d: "M36,56 L68,56 L68,76 C62,78 42,78 36,76 Z" },
+  // Biceps (outer arms only)
   { id: "biceps", d: "M28,56 L36,56 L36,76 L28,76 Z" },
   { id: "biceps", d: "M68,56 L76,56 L76,76 L68,76 Z" },
-  // Triceps
-  { id: "triceps", d: "M36,56 L44,56 L44,76 L36,76 Z" },
-  { id: "triceps", d: "M60,56 L68,56 L68,76 L60,76 Z" },
   // Forearms
   { id: "forearms", d: "M26,76 L36,76 L34,98 L24,98 Z" },
   { id: "forearms", d: "M68,76 L78,76 L80,98 L70,98 Z" },
@@ -42,12 +39,12 @@ const BACK_ZONES = [
   // Traps
   { id: "traps", d: "M40,42 L64,42 L60,52 L44,52 Z" },
   // Upper back
-  { id: "upper-back", d: "M44,52 L60,52 L60,68 L44,68 Z" },
+  { id: "upper-back", d: "M44,52 L60,52 L60,74 L44,74 Z" },
   // Lats
   { id: "lats", d: "M38,68 L44,68 L44,90 L36,90 Z" },
   { id: "lats", d: "M60,68 L66,68 L68,90 L60,90 Z" },
   // Lower back
-  { id: "lower-back", d: "M44,82 L60,82 L60,100 L44,100 Z" },
+  { id: "lower-back", d: "M44,74 L60,74 L60,100 L44,100 Z" },
   // Shoulders (back)
   { id: "shoulders", d: "M28,48 L40,48 L40,58 C34,58 28,56 28,52 Z" },
   { id: "shoulders", d: "M64,48 L76,48 C76,52 70,58 64,58 L64,48 Z" },

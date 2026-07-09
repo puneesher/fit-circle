@@ -39,6 +39,11 @@ const TABLE_CONFIG = {
     orderBy: "id",
     writeRows: writeMuscleGroupRows,
   },
+  muscles: {
+    table: "fc_muscles",
+    orderBy: "id",
+    writeRows: writeMuscleRows,
+  },
 };
 
 async function readRows(connection, config) {
@@ -123,6 +128,17 @@ async function writeMuscleGroupRows(connection, items) {
   for (const item of items) {
     await connection.execute(
       `INSERT INTO fc_muscle_groups (id, data) VALUES (:id, :data)`,
+      { id: item._id, data: JSON.stringify(item) },
+      { autoCommit: false },
+    );
+  }
+}
+
+async function writeMuscleRows(connection, items) {
+  await connection.execute(`DELETE FROM fc_muscles`, [], { autoCommit: false });
+  for (const item of items) {
+    await connection.execute(
+      `INSERT INTO fc_muscles (id, data) VALUES (:id, :data)`,
       { id: item._id, data: JSON.stringify(item) },
       { autoCommit: false },
     );

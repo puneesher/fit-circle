@@ -169,6 +169,11 @@ const TABLE_DDLS = {
       id VARCHAR2(128) PRIMARY KEY,
       data JSON NOT NULL
     )`,
+  fc_muscles: `
+    CREATE TABLE fc_muscles (
+      id VARCHAR2(128) PRIMARY KEY,
+      data JSON NOT NULL
+    )`,
 };
 
 async function createTableIfMissing(connection, tableName) {

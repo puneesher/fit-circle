@@ -12,22 +12,26 @@ export default function RoutineMuscleGroups({
   const [saving, setSaving] = useState(false);
 
   async function toggle(groupId) {
-    const next = selected.includes(groupId)
-      ? selected.filter((id) => id !== groupId)
-      : [...selected, groupId];
+    const prev = selected;
+    const next = prev.includes(groupId)
+      ? prev.filter((id) => id !== groupId)
+      : [...prev, groupId];
 
     setSelected(next);
     setSaving(true);
 
     try {
-      await fetch(`/api/routines/${routineId}`, {
+      const res = await fetch(`/api/routines/${routineId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ muscleGroups: next, userId: username }),
       });
+
+      if (!res.ok) {
+        setSelected(prev);
+      }
     } catch {
-      // Revert on failure
-      setSelected(selected);
+      setSelected(prev);
     } finally {
       setSaving(false);
     }

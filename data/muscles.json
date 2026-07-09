@@ -1,0 +1,22 @@
+[
+  { "_id": "anterior-deltoid", "name": "anterior deltoid", "group": "shoulders" },
+  { "_id": "lateral-deltoid", "name": "lateral deltoid", "group": "shoulders" },
+  { "_id": "posterior-deltoid", "name": "posterior deltoid", "group": "shoulders" },
+  { "_id": "trapezius", "name": "trapezius", "group": "shoulders" },
+  { "_id": "biceps-brachii", "name": "biceps brachii", "group": "arms" },
+  { "_id": "brachialis", "name": "brachialis", "group": "arms" },
+  { "_id": "brachioradialis", "name": "brachioradialis", "group": "arms" },
+  { "_id": "triceps", "name": "triceps", "group": "arms" },
+  { "_id": "biceps", "name": "biceps", "group": "arms" },
+  { "_id": "pectorals", "name": "pectorals", "group": "chest" },
+  { "_id": "latissimus-dorsi", "name": "latissimus dorsi", "group": "back" },
+  { "_id": "rhomboids", "name": "rhomboids", "group": "back" },
+  { "_id": "glutes", "name": "glutes", "group": "legs" },
+  { "_id": "quadriceps", "name": "quadriceps", "group": "legs" },
+  { "_id": "hamstrings", "name": "hamstrings", "group": "legs" },
+  { "_id": "calves", "name": "calves", "group": "legs" },
+  { "_id": "adductors", "name": "adductors", "group": "legs" },
+  { "_id": "abductors", "name": "abductors", "group": "legs" },
+  { "_id": "rectus-abdominis", "name": "rectus abdominis", "group": "abdomen" },
+  { "_id": "obliques", "name": "obliques", "group": "abdomen" }
+]

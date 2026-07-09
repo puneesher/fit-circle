@@ -43,7 +43,7 @@ export async function getOraclePool() {
     globalForOracle._oraclePool = await oracledb.createPool({
       ...config,
       poolMin: 0,
-      poolMax: 1,
+      poolMax: 4,
       poolIncrement: 1,
     });
   }
@@ -76,5 +76,5 @@ async function runWithConnection(fn, attempt = 0) {
 }
 
 export async function withOracleConnection(fn) {
-  return withOracleLock(() => runWithConnection(fn));
+  return runWithConnection(fn);
 }

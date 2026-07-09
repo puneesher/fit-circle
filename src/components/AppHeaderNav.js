@@ -19,7 +19,7 @@ function getActiveKey(pathname, username) {
     if (pathname.startsWith(`/${username}/routines`)) return "routines";
     if (pathname.startsWith(`/${username}/history`)) return "history";
   }
-  if (pathname.startsWith("/exercises")) return "exercises";
+  if (pathname.startsWith("/data/exercises")) return "exercises";
   return null;
 }
 
@@ -57,10 +57,11 @@ export default function AppHeaderNav({ links, username, brandHref, avatar, displ
         <Image
           src="/fc-logo.png"
           alt="Fitness Circle"
-          width={64}
-          height={34}
-          className="h-5 w-auto"
+          width={128}
+          height={68}
+          className="h-8 w-auto"
           priority
+          suppressHydrationWarning
         />
       </Link>
       {links.length > 0 && (
@@ -111,10 +112,16 @@ export default function AppHeaderNav({ links, username, brandHref, avatar, displ
             {menuOpen && (
               <div className="absolute right-0 top-full z-50 mt-2 w-44 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
                 <Link
-                  href="/exercises"
+                  href="/data/exercises"
                   className="block px-4 py-2.5 text-sm text-zinc-700 hover:bg-zinc-50 dark:text-zinc-200 dark:hover:bg-zinc-800"
                 >
                   Exercises
+                </Link>
+                <Link
+                  href="/data/muscles"
+                  className="block px-4 py-2.5 text-sm text-zinc-700 hover:bg-zinc-50 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                >
+                  Muscles
                 </Link>
                 <Link
                   href="/data/groups"
