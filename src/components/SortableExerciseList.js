@@ -170,27 +170,6 @@ export default function SortableExerciseList({ routineId, initialItems }) {
           Saving order…
         </p>
       )}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={items.map((item) => item._sortId)}
-          strategy={verticalListSortingStrategy}
-        >
-          <ol className="mt-6 space-y-4">
-            {items.map((item, i) => (
-              <SortableExerciseItem
-                key={item._sortId}
-                sortId={item._sortId}
-                item={item}
-                onEdit={() => setEditingIndex(i)}
-              />
-            ))}
-          </ol>
-        </SortableContext>
-      </DndContext>
 
       <button
         type="button"
@@ -202,6 +181,28 @@ export default function SortableExerciseList({ routineId, initialItems }) {
         </svg>
         Add exercise
       </button>
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={items.map((item) => item._sortId)}
+          strategy={verticalListSortingStrategy}
+        >
+          <ol className="mt-4 space-y-4">
+            {items.map((item, i) => (
+              <SortableExerciseItem
+                key={item._sortId}
+                sortId={item._sortId}
+                item={item}
+                onEdit={() => setEditingIndex(i)}
+              />
+            ))}
+          </ol>
+        </SortableContext>
+      </DndContext>
 
       <AddExerciseDialog
         open={dialogOpen}
