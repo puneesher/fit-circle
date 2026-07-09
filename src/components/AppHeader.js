@@ -20,12 +20,11 @@ export default async function AppHeader({ username }) {
       // If storage fails, render header without user info
     }
 
-    brandHref = `/${username}/sessions`;
+    brandHref = `/${username}/workout`;
     links = [
-      { href: `/${username}/sessions`, label: "Sessions", key: "sessions" },
+      { href: `/${username}/workout`, label: "Workout", key: "workout" },
       { href: `/${username}/routines`, label: "Routines", key: "routines" },
       { href: `/${username}/history`, label: "History", key: "history" },
-      { href: "/exercises", label: "Exercises", key: "exercises" },
     ];
   }
 

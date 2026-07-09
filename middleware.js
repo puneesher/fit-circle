@@ -6,7 +6,7 @@ export function middleware(request) {
 
   const username = request.cookies.get("fc_user")?.value;
   if (username) {
-    return NextResponse.redirect(new URL(`/${username}/sessions`, request.url));
+    return NextResponse.redirect(new URL(`/${username}/workout`, request.url));
   }
   return NextResponse.next();
 }

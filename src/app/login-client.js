@@ -7,7 +7,7 @@ export default function LoginClient({ users }) {
 
   function handleSelect(username) {
     document.cookie = `fc_user=${username}; path=/`;
-    router.push(`/${username}/sessions`);
+    router.push(`/${username}/workout`);
   }
 
   return (

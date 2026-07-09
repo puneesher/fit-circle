@@ -37,3 +37,7 @@ export function getBookStorage() {
 export function getUserStorage() {
   return createStorage("users");
 }
+
+export function getMuscleGroupStorage() {
+  return createStorage("muscle-groups");
+}
