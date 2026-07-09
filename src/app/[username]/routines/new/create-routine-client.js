@@ -3,14 +3,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function CreateRoutineClient({ username, exercises }) {
+export default function CreateRoutineClient({ username, exercises, muscleGroups = [] }) {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [selectedGroups, setSelectedGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+
+  function toggleGroup(groupId) {
+    setSelectedGroups((prev) =>
+      prev.includes(groupId)
+        ? prev.filter((id) => id !== groupId)
+        : [...prev, groupId]
+    );
+  }
 
   const filteredExercises = exercises.filter(
     (ex) =>
@@ -58,6 +67,7 @@ export default function CreateRoutineClient({ username, exercises }) {
       const payload = {
         name: name.trim(),
         userId: username,
+        muscleGroups: selectedGroups,
         items: items.map(({ exerciseName, ...item }) => ({
           ...item,
           Weight: item.Weight ? Number(item.Weight) : undefined,
@@ -115,6 +125,39 @@ export default function CreateRoutineClient({ username, exercises }) {
             className="mt-1 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50 dark:placeholder:text-zinc-500"
           />
         </div>
+
+        {/* Muscle Groups */}
+        {muscleGroups.length > 0 && (
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Muscle Groups
+            </label>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {muscleGroups.map((group) => {
+                const isSelected = selectedGroups.includes(group._id);
+                return (
+                  <button
+                    key={group._id}
+                    type="button"
+                    onClick={() => toggleGroup(group._id)}
+                    className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+                      isSelected
+                        ? "text-white"
+                        : "border border-zinc-300 text-zinc-600 hover:border-zinc-400 dark:border-zinc-600 dark:text-zinc-300"
+                    }`}
+                    style={isSelected ? { backgroundColor: group.color } : undefined}
+                  >
+                    <span
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ backgroundColor: group.color }}
+                    />
+                    {group.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Exercise Items */}
         <div className="mt-6">

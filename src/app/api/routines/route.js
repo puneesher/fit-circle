@@ -18,7 +18,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   const body = await request.json();
-  const { name, items, userId } = body;
+  const { name, items, userId, muscleGroups } = body;
 
   if (!userId) {
     return NextResponse.json({ error: "userId is required" }, { status: 400 });
@@ -28,6 +28,7 @@ export async function POST(request) {
     _id: Date.now(),
     Name: name,
     Items: items ?? [],
+    muscleGroups: muscleGroups ?? [],
     userId,
   };
 

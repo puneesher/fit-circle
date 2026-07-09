@@ -4,12 +4,32 @@ import {
   formatVolume,
 } from "@/lib/history-volume";
 
-export default function DailyVolumeChart({ history }) {
+function barBackground(colors) {
+  if (!colors || colors.length === 0) return undefined;
+  if (colors.length === 1) return colors[0];
+  // Gradient with equal stops
+  const stops = colors.map(
+    (c, i) => `${c} ${(i / colors.length) * 100}%, ${c} ${((i + 1) / colors.length) * 100}%`
+  );
+  return `linear-gradient(to top, ${stops.join(", ")})`;
+}
+
+export default function DailyVolumeChart({ history, routineColors = {} }) {
   const data = dailyVolumeFromHistory(history);
 
   if (data.length === 0) return null;
 
   const maxVolume = Math.max(...data.map((entry) => entry.volume));
+
+  // Build a map: date → colors (from the session's routineId)
+  const dateColors = {};
+  for (const session of history) {
+    if (!session.date || !session.routineId) continue;
+    const colors = routineColors[session.routineId];
+    if (colors && colors.length > 0 && !dateColors[session.date]) {
+      dateColors[session.date] = colors;
+    }
+  }
 
   return (
     <section className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
@@ -21,6 +41,8 @@ export default function DailyVolumeChart({ history }) {
       <div className="mt-4 flex h-44 items-end gap-2">
         {data.map((entry) => {
           const height = maxVolume > 0 ? (entry.volume / maxVolume) * 100 : 0;
+          const colors = dateColors[entry.date];
+          const bg = barBackground(colors);
 
           return (
             <div
@@ -32,8 +54,11 @@ export default function DailyVolumeChart({ history }) {
               </span>
               <div className="flex h-28 w-full items-end">
                 <div
-                  className="w-full rounded-t-md bg-zinc-900 dark:bg-zinc-100"
-                  style={{ height: `${Math.max(height, 4)}%` }}
+                  className={`w-full rounded-t-md ${!bg ? "bg-zinc-900 dark:bg-zinc-100" : ""}`}
+                  style={{
+                    height: `${Math.max(height, 4)}%`,
+                    ...(bg ? { background: bg } : {}),
+                  }}
                   title={`${formatChartDate(entry.date)}: ${formatVolume(entry.volume)}`}
                 />
               </div>

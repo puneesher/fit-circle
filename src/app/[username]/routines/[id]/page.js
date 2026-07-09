@@ -1,5 +1,7 @@
 import SortableExerciseList from "@/components/SortableExerciseList";
+import RoutineMuscleGroups from "@/components/RoutineMuscleGroups";
 import { getNextRoutine, getRoutineWithExercises } from "@/lib/routines";
+import { getMuscleGroupStorage } from "@/lib/storage";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -16,9 +18,10 @@ export async function generateMetadata({ params }) {
 
 export default async function RoutinePage({ params }) {
   const { username, id } = await params;
-  const [routine, nextRoutine] = await Promise.all([
+  const [routine, nextRoutine, muscleGroups] = await Promise.all([
     getRoutineWithExercises(id, username),
     getNextRoutine(id, username),
+    getMuscleGroupStorage().readAll(),
   ]);
 
   if (!routine) notFound();
@@ -42,6 +45,15 @@ export default async function RoutinePage({ params }) {
             </Link>
           )}
         </div>
+
+        {muscleGroups.length > 0 && (
+          <RoutineMuscleGroups
+            routineId={id}
+            muscleGroups={muscleGroups}
+            initialSelected={routine.muscleGroups ?? []}
+            username={username}
+          />
+        )}
 
         <SortableExerciseList routineId={id} initialItems={routine.Items} />
       </main>

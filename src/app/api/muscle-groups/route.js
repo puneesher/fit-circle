@@ -11,7 +11,7 @@ export async function GET() {
 
 export async function POST(request) {
   const body = await request.json();
-  const { name, color } = body;
+  const { name, color, zones } = body;
 
   if (!name?.trim()) {
     return NextResponse.json({ error: "name is required" }, { status: 400 });
@@ -30,6 +30,7 @@ export async function POST(request) {
     _id: id,
     name: name.trim(),
     color: color?.trim() || "#6b7280",
+    zones: zones ?? [],
   };
 
   all.push(newGroup);

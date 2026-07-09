@@ -276,8 +276,14 @@ export default function PageClient({
             : editorItem
         }
         loading={loading}
+        done={editorItem ? completedIds.has(editorItem.exerciseId) : false}
         onCancel={() => setEditorItem(null)}
         onConfirm={(values) => saveWeight(editorItem.exerciseId, values)}
+        onAdd={async (values) => {
+          await saveWeight(editorItem.exerciseId, values);
+          await completeItem(editorItem.exerciseId);
+          setEditorItem(null);
+        }}
       />
     </div>
   );

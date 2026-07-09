@@ -8,8 +8,10 @@ export default function WorkoutEditor({
   item,
   open,
   loading = false,
+  done = false,
   onCancel,
   onConfirm,
+  onAdd,
 }) {
   const [weight, setWeight] = useState(item?.Weight ?? 0);
   const [sets, setSets] = useState(item?.Sets ?? 4);
@@ -167,7 +169,7 @@ export default function WorkoutEditor({
             type="button"
             disabled={loading}
             onClick={onCancel}
-            className="flex-1 rounded-lg border border-zinc-300 px-3 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
+            className="rounded-lg border border-zinc-300 px-3 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
             Cancel
           </button>
@@ -175,10 +177,20 @@ export default function WorkoutEditor({
             type="button"
             disabled={loading}
             onClick={() => onConfirm({ weight, sets, reps })}
-            className="flex-1 rounded-lg bg-zinc-900 px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+            className="flex-1 rounded-lg border border-zinc-300 px-3 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
-            OK
+            Save
           </button>
+          {onAdd && !done && (
+            <button
+              type="button"
+              disabled={loading}
+              onClick={() => onAdd({ weight, sets, reps })}
+              className="flex-1 rounded-lg bg-zinc-900 px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+            >
+              Add
+            </button>
+          )}
         </div>
       </div>
     </div>

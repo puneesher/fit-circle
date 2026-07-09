@@ -85,10 +85,9 @@ export default function WorkoutsList({
                 item={withEffectiveWeight(item, session)}
                 done={done}
                 isNext={isNext}
-                disabled={loading || done || session.status === "completed"}
-                onComplete={onCompleteItem}
+                disabled={loading || session.status === "completed"}
                 onEditWeight={
-                  hasActiveSession && !done ? onEditWeight : undefined
+                  hasActiveSession ? onEditWeight : undefined
                 }
               />
             </li>

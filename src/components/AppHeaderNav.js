@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 
@@ -51,13 +52,16 @@ export default function AppHeaderNav({ links, username, brandHref, avatar, displ
       <Link
         href={brandHref}
         aria-current={pathname === brandHref ? "page" : undefined}
-        className={
-          pathname === brandHref
-            ? "text-xl font-semibold text-zinc-900 underline decoration-zinc-300 underline-offset-4 dark:text-zinc-50 dark:decoration-zinc-600"
-            : "text-xl font-semibold text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
-        }
+        className="shrink-0"
       >
-        Fitness Circle
+        <Image
+          src="/fc-logo.png"
+          alt="Fitness Circle"
+          width={64}
+          height={34}
+          className="h-5 w-auto"
+          priority
+        />
       </Link>
       {links.length > 0 && (
         <nav className="flex items-center gap-1 text-sm">
@@ -102,7 +106,7 @@ export default function AppHeaderNav({ links, username, brandHref, avatar, displ
                   : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
               }`}
             >
-              <GearIcon />
+              ⚙️
             </button>
             {menuOpen && (
               <div className="absolute right-0 top-full z-50 mt-2 w-44 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-900">

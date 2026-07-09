@@ -6,6 +6,7 @@ import {
   sessionStatusLabel,
 } from "@/lib/history-display";
 import { getWorkoutHistory } from "@/lib/workout";
+import { getMuscleGroupStorage, getRoutineStorage } from "@/lib/storage";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +17,22 @@ export const metadata = {
 
 export default async function HistoryPage({ params }) {
   const { username } = await params;
-  const history = await getWorkoutHistory(username);
+  const [history, routines, muscleGroups] = await Promise.all([
+    getWorkoutHistory(username),
+    getRoutineStorage().readByUser(username),
+    getMuscleGroupStorage().readAll(),
+  ]);
+
+  // Build a map: routineId → colors array
+  const groupColorMap = Object.fromEntries(
+    muscleGroups.map((g) => [g._id, g.color])
+  );
+  const routineColors = Object.fromEntries(
+    routines.map((r) => [
+      r._id,
+      (r.muscleGroups ?? []).map((gId) => groupColorMap[gId]).filter(Boolean),
+    ])
+  );
 
   return (
     <div className="min-h-full bg-zinc-50 dark:bg-zinc-950">
@@ -27,7 +43,7 @@ export default async function HistoryPage({ params }) {
         <p className="mt-1 text-sm text-zinc-500">Your past workouts</p>
 
         <div className="mt-6">
-          <DailyVolumeChart history={history} />
+          <DailyVolumeChart history={history} routineColors={routineColors} />
         </div>
 
         {history.length === 0 ? (

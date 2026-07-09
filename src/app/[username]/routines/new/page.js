@@ -1,4 +1,4 @@
-import { getExerciseStorage } from "@/lib/storage";
+import { getExerciseStorage, getMuscleGroupStorage } from "@/lib/storage";
 import CreateRoutineClient from "./create-routine-client";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +9,10 @@ export const metadata = {
 
 export default async function NewRoutinePage({ params }) {
   const { username } = await params;
-  const exercises = await getExerciseStorage().readAll();
+  const [exercises, muscleGroups] = await Promise.all([
+    getExerciseStorage().readAll(),
+    getMuscleGroupStorage().readAll(),
+  ]);
 
-  return <CreateRoutineClient username={username} exercises={exercises} />;
+  return <CreateRoutineClient username={username} exercises={exercises} muscleGroups={muscleGroups} />;
 }
