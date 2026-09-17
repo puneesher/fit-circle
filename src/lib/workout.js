@@ -2,8 +2,14 @@ import {
   getExerciseStorage,
   getHistoryStorage,
   getRoutineStorage,
+  getUserStorage,
 } from "@/lib/storage";
-import { getLatestQueuedWeight } from "@/lib/exercise-weight";
+import {
+  getLatestQueuedWeight,
+  resolveAssistedWeight,
+  bodyweightForUnit,
+} from "@/lib/exercise-weight";
+import { latestWeight } from "@/lib/profile";
 import { getRoutineWithExercises } from "@/lib/routines";
 
 function sessionId(date, routineId) {
@@ -152,9 +158,23 @@ export async function completeExercise(sessionId, exerciseId, userId) {
   const { Exercise, ...itemSnapshot } = item;
   const queuedWeight = getLatestQueuedWeight(session, exerciseId);
 
+  // The weight being logged: a queued override wins over the item's own weight.
+  const loggedWeight = queuedWeight != null ? queuedWeight : itemSnapshot.Weight;
+
+  // A negative weight means assistance (e.g. assisted chin-ups). Resolve it
+  // against the user's most recent bodyweight so we store the effective load.
+  let resolvedWeight = loggedWeight;
+  if (loggedWeight != null && Number(loggedWeight) < 0) {
+    const owner = session.userId ?? userId ?? "im";
+    const users = await getUserStorage().readAll();
+    const user = users.find((u) => u.username === owner || u._id === owner);
+    const bodyweight = bodyweightForUnit(latestWeight(user?.weight), itemSnapshot.Unit);
+    resolvedWeight = resolveAssistedWeight(loggedWeight, bodyweight);
+  }
+
   session.completedItems.push({
     ...itemSnapshot,
-    ...(queuedWeight != null ? { Weight: queuedWeight } : {}),
+    ...(resolvedWeight != null ? { Weight: resolvedWeight } : {}),
     completedAt: new Date().toISOString(),
   });
 

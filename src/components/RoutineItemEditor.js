@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ExerciseImage from "@/components/ExerciseImage";
 
 const TYPES = ["Push", "Pull", "Legs", "Core", "Cardio"];
@@ -79,8 +79,13 @@ export default function RoutineItemEditor({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (open && item) {
+  // Reset the form when a different item is opened. Adjusting state during
+  // render (rather than in an effect) avoids an extra render pass.
+  const openKey = open && item ? (item.exerciseId ?? itemIndex ?? item) : null;
+  const [lastKey, setLastKey] = useState(openKey);
+  if (openKey !== lastKey) {
+    setLastKey(openKey);
+    if (openKey != null) {
       setType(item.Type ?? "Push");
       setSets(item.Sets ?? "");
       setReps(item.Reps ?? "");
@@ -90,7 +95,7 @@ export default function RoutineItemEditor({
       setUnilateral(Boolean(item.Unilateral));
       setError(null);
     }
-  }, [open, item]);
+  }
 
   if (!open || !item) return null;
 
@@ -205,21 +210,20 @@ export default function RoutineItemEditor({
           {/* Weight + Unit */}
           <div>
             <p className="mb-2 text-xs font-medium text-zinc-500">Weight</p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setWeight((w) => String(Math.max(0, (Number(w) || 0) - 5)))}
+                onClick={() => setWeight((w) => String((Number(w) || 0) - 5))}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-300 text-base font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800"
               >
                 −5
               </button>
               <input
                 type="number"
-                min="0"
                 step="any"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
-                className="w-16 rounded-lg border border-zinc-300 bg-white px-2 py-1.5 text-center text-lg font-bold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-50"
+                className="w-20 shrink-0 rounded-lg border border-zinc-300 bg-white px-2 py-1.5 text-center text-lg font-bold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-50"
               />
               <button
                 type="button"
@@ -238,6 +242,10 @@ export default function RoutineItemEditor({
                 ))}
               </select>
             </div>
+            <p className="mt-1.5 text-xs text-zinc-400">
+              Use a negative value for assistance (e.g. assisted chin-ups). It is
+              subtracted from your bodyweight when you log the set.
+            </p>
           </div>
 
           {/* Unilateral */}

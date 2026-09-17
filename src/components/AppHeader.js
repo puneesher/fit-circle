@@ -34,6 +34,7 @@ export default async function AppHeader({ username }) {
         links={links}
         username={username || null}
         brandHref={brandHref}
+        profileHref={username ? `/${username}/profile` : null}
         avatar={avatar}
         displayName={displayName}
       />

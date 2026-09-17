@@ -2,7 +2,7 @@
 
 import { formatWeight } from "@/lib/format-weight";
 import ExerciseImage from "@/components/ExerciseImage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function WorkoutEditor({
   item,
@@ -17,18 +17,23 @@ export default function WorkoutEditor({
   const [sets, setSets] = useState(item?.Sets ?? 4);
   const [reps, setReps] = useState(item?.Reps ?? 12);
 
-  useEffect(() => {
-    if (open && item) {
+  // Reset the form when a different item is opened. Adjusting state during
+  // render (rather than in an effect) avoids an extra render pass.
+  const openKey = open && item ? (item.exerciseId ?? item) : null;
+  const [lastKey, setLastKey] = useState(openKey);
+  if (openKey !== lastKey) {
+    setLastKey(openKey);
+    if (openKey != null) {
       setWeight(item.Weight ?? 0);
       setSets(item.Sets ?? 4);
       setReps(item.Reps ?? 12);
     }
-  }, [open, item]);
+  }
 
   if (!open || !item) return null;
 
   function adjustWeight(delta) {
-    setWeight((current) => Math.max(0, current + delta));
+    setWeight((current) => current + delta);
   }
 
   function adjustSets(delta) {
