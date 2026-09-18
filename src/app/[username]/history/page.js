@@ -7,6 +7,11 @@ import {
 } from "@/lib/history-display";
 import { getWorkoutHistory } from "@/lib/workout";
 import { getMuscleGroupStorage, getRoutineStorage } from "@/lib/storage";
+import {
+  sessionTotalWeight,
+  formatTotalWeight,
+  convertTotalWeight,
+} from "@/lib/history-volume";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -50,7 +55,9 @@ export default async function HistoryPage({ params }) {
           <p className="mt-6 text-zinc-500">No workouts yet.</p>
         ) : (
           <ul className="mt-6 space-y-3">
-            {history.map((session) => (
+            {history.map((session) => {
+              const totals = sessionTotalWeight(session);
+              return (
               <li key={session._id}>
                 <Link
                   href={`/${username}/history/${session._id}`}
@@ -76,9 +83,29 @@ export default async function HistoryPage({ params }) {
                     {session.completedItems.length} exercise
                     {session.completedItems.length === 1 ? "" : "s"} logged
                   </p>
+                  {totals.length > 0 && (
+                    <p className="mt-1 text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                      Total:{" "}
+                      {totals.map((entry, i) => {
+                        const converted = convertTotalWeight(entry);
+                        return (
+                          <span key={entry.unit || i}>
+                            {i > 0 && " · "}
+                            {formatTotalWeight(entry)}
+                            {converted && (
+                              <span className="font-normal text-zinc-400">
+                                {" "}/ {formatTotalWeight(converted)}
+                              </span>
+                            )}
+                          </span>
+                        );
+                      })}
+                    </p>
+                  )}
                 </Link>
               </li>
-            ))}
+              );
+            })}
           </ul>
         )}
       </main>
