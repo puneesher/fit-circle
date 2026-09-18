@@ -8,6 +8,7 @@ import {
   getLatestQueuedWeight,
   resolveAssistedWeight,
   bodyweightForUnit,
+  barWeightForExercise,
 } from "@/lib/exercise-weight";
 import { latestWeight } from "@/lib/profile";
 import { getRoutineWithExercises } from "@/lib/routines";
@@ -170,6 +171,15 @@ export async function completeExercise(sessionId, exerciseId, userId) {
     const user = users.find((u) => u.username === owner || u._id === owner);
     const bodyweight = bodyweightForUnit(latestWeight(user?.weight), itemSnapshot.Unit);
     resolvedWeight = resolveAssistedWeight(loggedWeight, bodyweight);
+  }
+
+  // Bar-based exercises (e.g. bench press) log the plate weight; add the bar's
+  // own weight so the stored total reflects what was actually lifted.
+  if (resolvedWeight != null) {
+    const barWeight = barWeightForExercise(item.Exercise, itemSnapshot.Unit);
+    if (barWeight > 0) {
+      resolvedWeight = Number(resolvedWeight) + barWeight;
+    }
   }
 
   session.completedItems.push({

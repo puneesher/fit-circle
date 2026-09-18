@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ImagePicker from "@/components/ImagePicker";
 
 const inputClass =
@@ -22,19 +22,27 @@ export default function ExerciseEditDialog({ exercise, open, onClose, onSaved })
   const [target, setTarget] = useState("");
   const [muscles, setMuscles] = useState("");
   const [picture, setPicture] = useState("");
+  const [hasBar, setHasBar] = useState(false);
+  const [barWeight, setBarWeight] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  // Sync fields when exercise changes or dialog opens
-  useEffect(() => {
-    if (open && exercise) {
+  // Sync fields when the exercise changes or the dialog opens. Adjusting state
+  // during render (rather than in an effect) avoids an extra render pass.
+  const openKey = open && exercise ? exercise._id : null;
+  const [lastKey, setLastKey] = useState(openKey);
+  if (openKey !== lastKey) {
+    setLastKey(openKey);
+    if (openKey != null) {
       setName(exercise.Name ?? "");
       setTarget(exercise.Target ?? "");
       setMuscles((exercise.Muscles ?? []).join(", "));
       setPicture(exercise.Picture ?? "");
+      setHasBar(Boolean(exercise.HasBar));
+      setBarWeight(exercise.BarWeight != null ? String(exercise.BarWeight) : "");
       setError(null);
     }
-  }, [open, exercise]);
+  }
 
   function handleClose() {
     setError(null);
@@ -59,6 +67,9 @@ export default function ExerciseEditDialog({ exercise, open, onClose, onSaved })
         .map((m) => m.trim())
         .filter(Boolean),
       Picture: picture || undefined,
+      HasBar: hasBar,
+      BarWeight:
+        hasBar && barWeight.trim() !== "" ? Number(barWeight) : undefined,
     };
 
     setSaving(true);
@@ -154,6 +165,51 @@ export default function ExerciseEditDialog({ exercise, open, onClose, onSaved })
             <Field label="Image" htmlFor="edit-picture">
               <ImagePicker value={picture} onChange={setPicture} />
             </Field>
+
+            <label
+              htmlFor="edit-hasbar"
+              className="flex cursor-pointer items-center justify-between gap-3"
+            >
+              <span className="text-xs font-medium text-zinc-500">
+                Uses a bar
+                <span className="mt-0.5 block font-normal text-zinc-400">
+                  e.g. bench press, barbell squat
+                </span>
+              </span>
+              <button
+                id="edit-hasbar"
+                type="button"
+                role="switch"
+                aria-checked={hasBar}
+                onClick={() => setHasBar((v) => !v)}
+                className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-400 ${
+                  hasBar
+                    ? "bg-zinc-900 dark:bg-zinc-100"
+                    : "bg-zinc-300 dark:bg-zinc-700"
+                }`}
+              >
+                <span
+                  className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform dark:bg-zinc-900 ${
+                    hasBar ? "translate-x-5" : "translate-x-0.5"
+                  }`}
+                />
+              </button>
+            </label>
+
+            {hasBar && (
+              <Field label="Bar weight" htmlFor="edit-barweight">
+                <input
+                  id="edit-barweight"
+                  type="number"
+                  min="0"
+                  step="any"
+                  value={barWeight}
+                  onChange={(e) => setBarWeight(e.target.value)}
+                  placeholder="Leave blank for standard (20 kg / 45 lb)"
+                  className={inputClass}
+                />
+              </Field>
+            )}
 
             {error && (
               <p role="alert" className="text-sm text-red-600 dark:text-red-400">

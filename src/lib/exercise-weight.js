@@ -37,6 +37,30 @@ export function unitIsKg(unit) {
   return typeof unit === "string" && unit.toLowerCase().startsWith("kg");
 }
 
+/** Standard Olympic bar weights used as a fallback when none is specified. */
+export const DEFAULT_BAR_WEIGHT_KG = 20;
+export const DEFAULT_BAR_WEIGHT_LB = 45;
+
+/**
+ * Resolve the bar weight to add for a bar-based exercise, in the item's unit.
+ *
+ * Uses the exercise's own `BarWeight` when set; otherwise falls back to the
+ * standard Olympic bar (20 kg / 45 lb) matched to the item's unit. Returns 0
+ * for non-bar exercises.
+ *
+ * @param {object} exercise - the exercise record (may have HasBar/BarWeight)
+ * @param {string} unit - the item's weight unit (e.g. "lb", "kg")
+ * @returns {number}
+ */
+export function barWeightForExercise(exercise, unit) {
+  if (!exercise?.HasBar) return 0;
+
+  const explicit = Number(exercise.BarWeight);
+  if (Number.isFinite(explicit) && explicit > 0) return explicit;
+
+  return unitIsKg(unit) ? DEFAULT_BAR_WEIGHT_KG : DEFAULT_BAR_WEIGHT_LB;
+}
+
 /**
  * Pick the user's most recent bodyweight in the unit family matching `unit`.
  * Weight history entries store both `kg` and `lbs`.
